@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <h1>Dashboard</h1>
+
+    <h2>Ciao <%= user %></h2>
+
+    <a href="/fermi-notifier/logout">Logout</a>
+
+    <h3>Le tue keywords</h3>
+    
+    <ul>
+      <% if (locals.keywords) { %> <% keywords.forEach(kw => { %>
+      <li><%= kw %></li>
+      <% }) %> <% } %>
+    </ul>
+
+
+    <form action="/fermi-notifier/keyword" method="POST">
+      <div>
+        <input 
+          type="text" 
+          id="keyword" 
+          name="keyword" 
+          placeholder="Aggiungi/Rimuovi parola chiave" 
+          required 
+        />
+      </div>
+      <div>
+        <input 
+          type="submit"
+          value="Invia"
+        />
+      </div>
+    </form>
+    <p>Per rimuovere una parola chiave, 
+      reinserirla.</p>
+
+    <h3>Notifiche su Telegram</h3>
+    <p>Metodo di notifica alternativo/ausiliario 
+        alla posta elettronica consigliato 
+        (non obbligatorio).</p>
+    <% if (tgun.charAt(0) === 'X') { %> 
+      <p>Per essere notificato/a su telegram, scrivere </p>
+        <code><%= tgun %></code>
+      <p> a </p><code>@ciin_gcalendar_bot</code><p> su 
+        telegram.
+      </p>
+    <% } else { %>
+      <pre>Il tuo username telegram: <%= tgun %></pre>
+    <% } %>
+
+    
+    <h3>Le tue notifiche</h3>
+    <p>Fin&apos;ora hai ricevuto <%= n_not %> notifiche.</p>
+  </body>
+</html>
