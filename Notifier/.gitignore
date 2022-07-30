@@ -1,0 +1,9 @@
+.env
+
+pyvenv
+todo
+/share/
+/lib/
+/include/
+/bin/
+
