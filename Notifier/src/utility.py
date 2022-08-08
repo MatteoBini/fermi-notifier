@@ -13,6 +13,11 @@ def isEventToday(event):
     # is today 
     #
     # The workday has to be started to return true (7.55)
+    
+    if (event["startDate"] == None) and (event["startDateTime"] == None):
+        # In case there are no events at all today
+        return False
+
     if event["startDate"] != None:
         eventTime = event["startDate"]
     else:
@@ -253,3 +258,4 @@ def get_last_minute_message(receiver: dict, events: list):
     # footer
     body += f"""Ti auguriamo buon proseguimento di giornata.\n\n_Fermi Notifier Team._ \nservizi@matteobini.me"""
     return body
+
