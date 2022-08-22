@@ -13,7 +13,7 @@ Todos:
 `Reliability testing`
 
 ### Notifier
-`Development & Debugging`
+`Reliability testing`
 Todos:
  - [ ] Implementare compleanni e auguri
  - [ ] Implementare sistema di notifica per eventi  Moodle
