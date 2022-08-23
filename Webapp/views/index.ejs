@@ -1,20 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link type="text/css" rel="stylesheet" href="../style.css" />
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../JS/hamburger.js" defer></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="../CSS/custom.css">
+    <link rel="stylesheet" href="../CSS/normalize.css">
+    <link rel="stylesheet" href="../CSS/responsive_grid.css">
     <title>Home</title>
-  </head>
-  <body>
-    <h1>Home</h1>
-
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&family=Montserrat:wght@100;400;500;700&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet"><body>
+</head>    
+<header>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="http://kliu.win/img/fermi-notifier/logo-long-trasp.png">
+        </div>
+        <a href="#" class="hamburger">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </a>
+        <div class="nav-links">
+            <ul>
+                <li>
+                    <a href="/fermi-notifier/login">&gt <span>Home</a><!-- se il login è già stto effettuato, visualizzare il nome dell'utente-->
+                </li>
+                <li>
+                    <a href="#">&gt <span>Chi siamo</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
     <% if (typeof message !== 'undefined' ) { %>
-    <p><%= message %></p>
+      <p><%= message %></p>
     <% } %>
-
-    <a href="/fermi-notifier/login">Login</a><br />
-    <a href="/fermi-notifier/register">Register</a>
-  </body>
+    <!-- DYNAMIC TEXT -->
+    <div class="container-title">
+        <div class="container-subtitle">
+            <p class="main-subtitle1">
+                &gt inserisci il tag  <br>
+            </p>
+        </div>
+        <div class="container-subtitle">
+            <p class="main-subtitle2">
+                &gt ricevi la notifica  <br>
+            </p>
+        </div>
+        <div class="container-subtitle">
+            <p class="main-subtitle3">
+                &gt rimani aggiornato  <br>
+            </p>
+        </div>
+        <div class="container-subtitle">
+            <p class="main-subtitle4">
+                <span style="color: white;">&gt</span> sempre.  <br>
+            </p>
+        </div>
+    </div>
+</body>
 </html>
