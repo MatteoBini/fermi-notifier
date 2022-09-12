@@ -61,7 +61,7 @@ app.get("/dashboard", checkNotAuthenticated, async (req, res) => {
   let userTelegram = await getUserTelegram(req.user.email);
   let userNotifications = await getUserNotifications(req.user.email);
 
-  userNotifications = userNotifications + 1; // because of the starting at -2 in db
+  // userNotifications = userNotifications + 1; // because of the starting at -2 in db
 
   res.render("dashboard", { 
     user: userName,
