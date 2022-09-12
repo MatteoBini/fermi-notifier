@@ -79,21 +79,25 @@
                 
         <!------------------>
 
-        <!-- Telegram -->
+        <!-- Telegram -->        
         <div class="bigSection">
             <h2 class="bigSectionTitle"><i class="fa-brands fa-telegram"></i> Telegram</h2>
             <div class="description">
                 <p style="margin-bottom: 20px">Metodo di notifica alternativo/ausiliario alla posta elettronica consigliato (non obbligatorio).</p>
-                <p>Per essere notificato/a su telegram, manda:</p>
-                <p onclick="copy()" class="telegramCodeContainer"><i class="fa-solid fa-copy"></i> <span id="telegramCode">Xvm3kkq</span> <span id="copied">Copiato!</span></p>
-                a <b><a href="https://t.me/FermiNotifierBot" target="_blank">@FermiNotifierBot</a></b> su telegram.
+                <% if (tgun.charAt(0) === 'X') { %> 
+                    <p>Per essere notificato/a su telegram, manda </p>
+                      <p onclick="copy()" class="telegramCodeContainer"><i class="fa-solid fa-copy"></i> <span id="telegramCode"><code><%= tgun %></code></span> <span id="copied">Copiato!</span></p>
+                      a <b><a href="https://t.me/FermiNotifierBot" target="_blank">@FermiNotifierBot</a></b> su telegram.</p>
+                <% } else { %>
+                <pre>Il tuo username telegram: <%= tgun %></pre>
+                <% } %>
             </div>
         </div>
         <!------------------>
 
         <!-- Notifiche -->
         <h2 class="bigSectionTitle"><i class="fa-solid fa-bell"></i> Notifiche</h2>
-        <a href="#">&gt <span style="color: white;">hai ricevuto </span>3<span style="color: white;"> notifiche</span></a>
+        <a href="#">&gt <span style="color: white;">hai ricevuto </span><%= n_not %><span style="color: white;"> notifiche</span></a>
         <!------------------>
     </div>
   </div></div>
