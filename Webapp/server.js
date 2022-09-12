@@ -117,7 +117,6 @@ app.post("/users/register", async (req, res) => {
       if (err) {
         console.log(err);
       }
-      console.log(results.rows);
 
       if (results.rows.length > 0) {
         return res.render("register", {
