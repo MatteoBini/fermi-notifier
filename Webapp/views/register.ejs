@@ -1,69 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Register</title>
-  </head>
-  <body>
-    <h1>Register</h1>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../JS/hamburger.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="../IMG/favicon-black.ico">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../CSS/custom.css" type="text/css">
+    <link rel="stylesheet" href="../CSS/normalize.css" type="text/css">
+    <link rel="stylesheet" href="../CSS/responsive_grid.css" type="text/css">
+    <link rel="stylesheet" href="../CSS/alertbanner.css" type="text/css">
+    <link rel="stylesheet" href="../CSS/general.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
+        
+<title>Iscrizione · Fermi Notify</title>
+</head>
+<body>
 
-    <ul>
-      <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
-      <li><%= error.message %></li>
-      <% }) %> <% } %>
-    </ul>
-    <form action="/fermi-notifier/register" method="POST">
-      <div>
-        <input 
-          type="text" 
-          id="name" 
-          name="name" 
-          placeholder="Nome" 
-          required 
-        />
-      </div>
-      <div>
-        <input 
-          type="text" 
-          id="surname" 
-          name="surname" 
-          placeholder="Cognome" 
-          required 
-        />
-      </div>
-      <div>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Email"
-          required
-        />
-      </div>
-      <div>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
-      </div>
-      <div>
-        <input
-          type="password"
-          id="password2"
-          name="password2"
-          placeholder="Confirm Password"
-          required
-        />
-      </div>
-      <div>
-        <input type="submit" value="Register" />
-      </div>
-    </form>
-    <a href="/fermi-notifier/login">Already registered? Login here</a>
-  </body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a class="logo" href="/">
+                <img src="../IMG/logo-long-white-trasp.png">
+            </a>
+            <a href="#" class="hamburger">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </a>
+            <div class="nav-links">
+                <ul>
+                    <li>
+                        <a href="./login" class="spanHighlight"><span>&gt;</span> Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<form id="registerForm" class="loginFormContainer" action="/users/register" method="POST" onSubmit="check()">
+    <h1 class="title"><span style="color: #F29C46;">&gt;</span> iscriviti</h1>
+    <div class="nomecognome inputs">
+        <div class="fname">
+            <label for="Nome" id="fname-label">Nome</label>
+            <input type="text" placeholder="Nome" name="name" id="name" required class="input-box">
+        </div>
+        <div class="lname">
+            <label for="Cognome" id="lname-label">Cognome</label>
+            <input type="text" placeholder="Cognome" name="surname" id="surname" required class="input-box">
+        </div>
+    </div>
+    <div class="email inputs">
+        <label for="Email" id="email-label">Email</label>
+        <input type="email" placeholder="Email" name="email" id="email" required class="input-box">
+    </div>
+    <div class="psw inputs">
+        <label for="Password" id="psw-label">Password</label>
+        <div class="psw-bar">
+            <input type="password" placeholder="Password" name="password" id="password" required class="input-box">
+            <span id="PSWShowHideIcon" onclick="ShowPSW()"><i class="fa-solid fa-eye-slash"></i></span>
+        </div>
+    </div>
+    <div class="confirm-psw inputs">
+        <label for="Conferma Password" id="confirm-psw-label">Conferma password</label>
+        <input type="password" placeholder="Conferma" name="password2" id="password2" required class="input-box">
+    </div>
+    <div class="confirm">
+        <input type="submit" value="Register" style="width:100%; height: 100%; background-color: #F29C46; color: white; margin: auto; border-color: #F29C46"/>
+    </div>
+</form>
+
+<div class="footer">
+    <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+    <p>Questo sito utilizza cookie tecnici</p>
+</div>
+
+<script>
+    $('input').on('change', function(){ // quando tag input cambia => function()
+         if($(this).val()==""){
+            $(this).removeClass('inserted');
+         }
+         if($(this).val()!=""){
+            $(this).addClass('inserted');
+         }
+    });
+
+    $('input').on('focus', function(){
+         labelID = this.id + "-label";
+         $("#"+labelID).css("color", "var(--highlighted-color)");
+         $(this).on("focusout", function() {
+            $("#"+labelID).css("color", "#fff");
+        });
+    });
+</script>
+
+<script src="../JS/ShowPSW.js"></script>
+
+
+</body>
 </html>

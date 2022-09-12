@@ -27,7 +27,7 @@ class Email:
         self.client = smtplib.SMTP(URL, PORT)
 
         self.client.starttls()
-        self.client.login("servizi@matteobini.me", EMAIL_PASSWORD)
+        self.client.login("master@ferminotify.me", EMAIL_PASSWORD)
         
         return
 
@@ -35,10 +35,10 @@ class Email:
     def notifyAdmin(self, new_user: str) -> None:
         msg = EmailMessage()
         msg["Subject"] = "Nuovo iscritto Calendar Notifier"
-        msg["From"] = "Fermi Notifier Team <servizi@matteobini.me>"
-        msg["To"] = "servizi@matteobini.me"
+        msg["From"] = "Fermi Notify Team <master@ferminotify.me>"
+        msg["To"] = "master@ferminotify.me"
         msg.set_content(f"Salve,\n{new_user} si e' iscritto.\n\n\
-                            Fermi Notifier Team")
+                            Fermi Notify Team")
         self.client.send_message(msg)
         
         return
@@ -48,7 +48,7 @@ class Email:
                         body: str, html_body: str) -> None:
         data = MIMEMultipart('alternative')
         data["Subject"] = subject
-        data["From"] = "Fermi Notifier Team <servizi@matteobini.me>"
+        data["From"] = "Fermi Notify Team <master@ferminotify.me>"
         data["To"] = receiver
         
         part1 = MIMEText(body, "plain")
@@ -56,7 +56,7 @@ class Email:
         data.attach(part1)
         data.attach(part2)
         
-        self.client.sendmail("servizi@matteobini.me", receiver, 
+        self.client.sendmail("master@ferminotify.me", receiver,
                                 data.as_string())
 
         return
@@ -165,12 +165,13 @@ def email_notification(notification: dict) -> None:
     has_school_started = datetime.now().time() > time(8,10)
 
     if is_dailynotification_time:
-        email["Subject"] = get_daily_notification_mail_subject(),
+        email["Subject"] = get_daily_notification_mail_subject(
+                                                len(notification["events"]))
         email["Body"] = get_daily_notification_mail_body(user, 
                                                         notification["events"])
     
     elif has_school_started:
-        email["Subject"] = get_last_minute_notification_mail_subject(),
+        email["Subject"] = get_last_minute_notification_mail_subject()
         email["Body"] = get_last_minute_notification_mail_body(user, 
                                                         notification["events"])
 

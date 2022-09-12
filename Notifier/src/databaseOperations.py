@@ -150,6 +150,7 @@ class NotifierDB():
         self.cursor.execute(f"SELECT * FROM stuff")
         response = self.cursor.fetchall()
         self.connection.commit()
+        offset = ""
 
         for i in response:
             if i[0] == "telegram_offset":

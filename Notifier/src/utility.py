@@ -27,17 +27,13 @@ def is_event_today(event: dict) -> bool:
 
     return (event_is_today and is_notification_time)
 
-def get_event_colors() -> tuple:
-    # Returns a tuple of colors for events card in the emails. The first 
-    # element is for the background and the second one for text
+def get_event_color() -> str:
+    # Returns a RBG color for event card in the emails
 
     colors = [
-        ("#1B5E20", "#A5D6A7"), ("#FF6F00", "#FFE082"), ("#1A237E", "#9FA8DA"),
-        ("#BF360C", "#FFAB91"), ("#01579B", "#81D4FA"), ("#33691E", "#A5D6A7"),
-        ("#880E4F", "#F48FB1"), ("#E65100", "#FFCC80"), ("#311B92", "#B39DDB"),
-        ("#B71C1C", "#EF9A9A"), ("#004D40", "#80CBC4"), ("#F57F17", "#FFF59D"),
-        ("#0D47A1", "#90CAF9"), ("#827717", "#E6EE9C"), ("#006064", "#80DEEA"),
-        ("#4A148C", "#CE93D8"),
+        "#1B5E20", "#FF6F00", "#1A237E", "#BF360C", "#01579B", "#33691E",
+        "#880E4F", "#E65100", "#311B92", "#B71C1C", "#004D40", "#F57F17",
+        "#0D47A1", "#827717", "#006064", "#4A148C", 
     ]
 
     return choice(colors)
@@ -53,7 +49,7 @@ def get_mail_raw() -> str:
 #                                             #
 ###############################################
 
-###      MESSAGGIO DI CONFERMA ACCOUNT      ###
+###      ACCOUNT CONFIRMATION EMAIL      ###
 
 def get_registration_mail_subject() -> str:
     return "Fermi Notifier - Confirm registration"
@@ -61,31 +57,34 @@ def get_registration_mail_subject() -> str:
 def get_registration_mail_body(name: str, verification_code: str) -> str:
     body = ""
 
-    with open("emails/Confirm-registration/1.htm") as f:
+    with open("emails/Confirm-registration/01.htm") as f:
         body += f.read()
 
     body += name
 
-    with open("emails/Confirm-registration/2.htm") as f:
+    with open("emails/Confirm-registration/02.htm") as f:
         body += f.read()
 
     body += verification_code
 
-    with open("emails/Confirm-registration/3.htm") as f:
+    with open("emails/Confirm-registration/03.htm") as f:
         body += f.read()
 
     body += verification_code
 
-    with open("emails/Confirm-registration/4.htm") as f:
+    with open("emails/Confirm-registration/04.htm") as f:
         body += f.read()
     
     body += verification_code
+
+    with open("emails/Confirm-registration/05.htm") as f:
+        body += f.read()
 
     return body
 
 
 
-###          MESSAGGIO DI BENVENUTO         ###
+###          WELCOME EMAIL         ###
 
 def get_welcome_mail_subject() -> str:
     return "Fermi Notifier - Welcome!"
@@ -93,87 +92,83 @@ def get_welcome_mail_subject() -> str:
 def get_welcome_mail_body(username: str) -> str:
     body = ""
     
-    with open("emails/Welcome/1.htm") as f:
+    with open("emails/Welcome/01.htm") as f:
         body += f.read()
 
     body += username
 
-    with open("emails/Welcome/2.htm") as f:
+    with open("emails/Welcome/02.htm") as f:
         body += f.read()
 
     return body
 
 
 
-###     MESSAGGIO DI NOTIFICA QUOTIDIANO    ###
+###     DAILY NOTIFICATION EMAIL    ###
 
 def get_daily_notification_mail_subject(n_events: int) -> str:
-    return f"Fermi Notifier - Daily notification ({n_events} eventi)"
+    subject = "Fermi Notifier - Daily notification ({n_events} "
+    subject += f"event{'i' if n_events > 1 else 'o'})"
+    return subject
+    
 
 def get_daily_notification_mail_body(receiver: dict, events: list) -> str:
-
-    # DA RIVEDERE !!! TODO !!! NON HO UTILIZZATO txt_color !!!
     body = ""
 
-    with open("emails/Daily-notification/1.htm") as f:
+    with open("emails/Daily-notification/01.htm") as f:
         body += f.read()
     
     body += receiver["name"]
 
-    with open("emails/Daily-notification/2.htm") as f:
+    with open("emails/Daily-notification/02.htm") as f:
         body += f.read()
 
     body += str(len(events))
 
-    with open("emails/Daily-notification/3.htm") as f:
+    with open("emails/Daily-notification/03.htm") as f:
             body += f.read()
 
     for i in events:
-        bg_color, txt_color = get_event_colors()
+        card_color = get_event_color()
 
-        with open("emails/Daily-notification/4.1.htm") as f:
+        with open("emails/Daily-notification/04.htm") as f:
             body += f.read()
 
-        body += bg_color
+        body += card_color
 
-        with open("emails/Daily-notification/4.2.htm") as f:
+        with open("emails/Daily-notification/05.htm") as f:
             body += f.read()
 
         body += i["subject"]
 
-        with open("emails/Daily-notification/4.3.htm") as f:
-            body += f.read()
-        
-        body += bg_color
-
-        with open("emails/Daily-notification/5.htm") as f:
+        with open("emails/Daily-notification/06.htm") as f:
             body += f.read()
 
         if i["startDate"]:
-            body += f"""{i["startDate"][8:9]}-{i["startDate"][5:6]}-\
-                {i["startDate"][:4]}"""
+            body += f"""{i["startDate"][8:9]}-{i["startDate"][5:6]}"""
+            body += f"""-{i["startDate"][:4]}"""
         else:
             body += f"""{i["startDateTime"][11:16]}"""
 
-        with open("emails/Daily-notification/6.htm") as f:
+        with open("emails/Daily-notification/07.htm") as f:
             body += f.read()
 
         if i["endDate"]:
-            body += f"""{i["endDate"][8:9]}-{i["endDate"][5:6]}-\
-                {i["endDate"][:4]}"""
+            body += f"""{i["endDate"][8:9]}-{i["endDate"][5:6]}"""
+            body += f"""-{i["endDate"][:4]}"""
         else:
             body += f"""{i["endDateTime"][11:16]}"""
 
-        with open("emails/Daily-notification/7.htm") as f:
+        with open("emails/Daily-notification/08.htm") as f:
             body += f.read()
         
-    with open("emails/Daily-notification/8.htm") as f:
+    with open("emails/Daily-notification/09.htm") as f:
             body += f.read()
 
     return body
 
 
-###    MESSAGGIO DI NOTIFICA LAST MINUTE    ###
+###    LAST MINUTE EMAIL NOTIFICATION    ###
 
 def get_last_minute_notification_mail_subject():
     return "Fermi Notifier - Last Minute Notification"
@@ -181,43 +176,33 @@ def get_last_minute_notification_mail_subject():
 def get_last_minute_notification_mail_body(receiver: dict, events: list) -> str:
     body = ""
     
-    with open("emails/Last-minute-notification/1.htm") as f:
+    with open("emails/Last-minute-notification/01.htm") as f:
         body += f.read()
 
     body += receiver["name"]
 
-    with open("emails/Last-minute-notification/2.htm") as f:
+    with open("emails/Last-minute-notification/02.htm") as f:
         body += f.read()
 
-    body += "un evento" if len(events) == 1 else f"{len(events)} eventi"
+    body += f"{len(events)} event{'i' if len(events) > 1 else 'o'}"
 
-    with open("emails/Last-minute-notification/3.htm") as f:
+    with open("emails/Last-minute-notification/03.htm") as f:
         body += f.read()
 
     for i in events:
-        bg_color, txt_color = get_event_colors()
+        card_color = get_event_color()
 
-        with open("emails/Last-minute-notification/4.1.htm") as f:
+        with open("emails/Last-minute-notification/04.htm") as f:
             body += f.read()
         
-        body += bg_color
+        body += card_color
 
-        with open("emails/Last-minute-notification/4.2.htm") as f:
+        with open("emails/Last-minute-notification/05.htm") as f:
             body += f.read()
 
         body += i["subject"]
 
-        with open("emails/Last-minute-notification/4.3.htm") as f:
-            body += f.read()
-
-        body += bg_color
-
-        with open("emails/Last-minute-notification/4.4.htm") as f:
-            body += f.read()
-
-        body += txt_color
-
-        with open("emails/Last-minute-notification/5.htm") as f:
+        with open("emails/Last-minute-notification/06.htm") as f:
             body += f.read()
 
         if i["startDate"]:
@@ -226,7 +211,7 @@ def get_last_minute_notification_mail_body(receiver: dict, events: list) -> str:
         else:
             body += f"""{i["startDateTime"][11:16]}"""
 
-        with open("emails/Last-minute-notification/6.htm") as f:
+        with open("emails/Last-minute-notification/07.htm") as f:
             body += f.read()
         
         if i["endDate"]:
@@ -235,10 +220,10 @@ def get_last_minute_notification_mail_body(receiver: dict, events: list) -> str:
         else:
             body += f"""{i["endDateTime"][11:16]}"""
 
-        with open("emails/Last-minute-notification/7.htm") as f:
+        with open("emails/Last-minute-notification/08.htm") as f:
             body += f.read()
     
-    with open("emails/Last-minute-notification/8.htm") as f:
+    with open("emails/Last-minute-notification/09.htm") as f:
         body += f.read()
 
     return body
@@ -254,53 +239,55 @@ def get_last_minute_notification_mail_body(receiver: dict, events: list) -> str:
 
 def get_daily_notification_tg_message(receiver: dict, events: list) -> str:
     body = ""
-    body += f"""Ciao {receiver["name"]}, ecco il tuo daily roundup\n"""
+
+    body += f"""Ciao {receiver["name"]}, ecco il tuo daily roundup:\n"""
+
     for _ in events:
-        body += f"""Nome evento: `{_["subject"]}`\n"""
-        body += "*Inizio*: "
+        body += f"""\n· `{_["subject"]}`"""
+        body += "\n· *Inizio* ⏰ "
         if _["startDate"] != None:
             body += f"""`{_["startDate"][8:9]}-{_["startDate"][5:6]}-\
-                        {_["startDate"][:4]}`\n"""
+                        {_["startDate"][:4]}`"""
         else:
-            body += f"""`{_["startDateTime"][11:16]}`\n"""
-        
-        body += "*Fine*: "
+            body += f"""`{_["startDateTime"][11:16]}`"""
+
+        body += "\n· *Fine* 🔚 "
 
         if _["endDate"] != None:
             body += f"""`{_["endDate"][8:9]}-{_["endDate"][5:6]}-\
-                        {_["endDate"][:4]}`"""
+                        {_["endDate"][:4]}`\n"""
         else:
-            body += f"""`{_["endDateTime"][11:16]}`"""
-
-    body += f"""\n\Buona giornata <3\nFermi Notifier Team.\n\
-                servizi@matteobini.me"""
+            body += f"""`{_["endDateTime"][11:16]}`\n"""
+        
+    body += "\nBuona giornata <3\n_Fermi Notifier Team_\n"
+    body += "master@ferminotify.me"
 
     return body
 
 
 def get_last_minute_message(receiver: dict, events: list) -> str:
     # header
-    body =  f"""Ciao {receiver["name"]}.\nAbbiamo trovato {len(events)} \
-                eventi dell'ultimo minuto:\n"""
+    body =  f"""Ciao {receiver["name"]}.\nAbbiamo trovato {len(events)} """
+    body += f"event{'i' if len(events) > 1 else 'o'} dell'ultimo minuto:\n"
 
     for _ in events:
         body += f"""*Titolo*: `{_["subject"]}` \n"""
     
         # date/time begin
         if _["startDate"] != None:
-            body += f"""*Inizio*: `{_["startDate"][8:]}-{_["startDate"][5:6]}-\
-                        {_["startDate"][:3]}` \n"""
+            body += f"""*Inizio*: `{_["startDate"][8:]}-"""
+            body += f"""{_["startDate"][5:6]}-{_["startDate"][:3]}`\n"""
         else:
             body += f"""*Inizio*: `{_["startDateTime"][11:16]}` \n"""
         
         # date/time end
         if _["endDate"] != None:
-            body += f"""*Fine*: `{_["endDate"][8:]}-{_["endDate"][5:6]}-\
-                        {_["endDate"][:3]}` \n"""
+            body += f"""*Fine*: `{_["endDate"][8:]}-"""
+            body += f"""{_["endDate"][5:6]}-{_["endDate"][:3]}` \n"""
         else:
             body += f"""*Fine*: `{_["endDateTime"][11:16]}` \n\n"""
 
     # footer
-    body += f"""Ti auguriamo buon proseguimento di giornata.\n\n_Fermi \
-        Notifier Team._ \nservizi@matteobini.me"""
+    body += f"""Ti auguriamo buon proseguimento di giornata.\n\n"""
+    body += f"""_Fermi Notifier Team_ \nmaster@ferminotify.me"""
     return body

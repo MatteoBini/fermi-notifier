@@ -76,23 +76,31 @@ class Telegram:
         """
 
         inbox_messages = self.bot.getUpdates(offset=get_tg_offset())
-        for i in inbox_messages:
+        for message in inbox_messages:
             
-            for j in subs:
+            for sub in subs:
                 # The next lines I check if I got messages from any
                 # new user or some stranger (first 2 lines to check 
                 # if I didn't get messages from groups, last one 
                 # check for the message that i got from my new user)
-                if "my_chat_member" not in i.keys():
-                    if ("new_chat_participant" not in i["message"]) and ("left_chat_participant" not in i["message"]):
-                        if i["message"]["text"] == j["telegram"]:
-                            user_email = j["email"]
-                            telegram_id = i["message"]["from"]["id"]
+                if "my_chat_member" not in message.keys():
+                    if ("new_chat_participant" not in message["message"]) and \
+                        ("left_chat_participant" not in message["message"]) and \
+                        ("document" not in message["message"].keys()):
+                        try:
+                            if message["message"]["text"] == sub["telegram"]:
+                                user_email = sub["email"]
+                                telegram_id = message["message"]["from"]["id"]
 
-                            update_tg_offset(i["update_id"])
+                                update_tg_offset(message["update_id"])
 
-                            update_telegram_id(user_email, telegram_id)
-                            self.user_welcome(telegram_id)
+                                update_telegram_id(user_email, telegram_id)
+                                self.user_welcome(telegram_id)
+                        except:
+                            print("[TELEGRAM NOTIFIER] There's been an error \
+                                    registering the user that has sent the \
+                                    following messsage:")
+                            print(message)
 
         return
 
@@ -156,7 +164,7 @@ def tg_notification(notification: dict) -> None:
                                                         notification["events"])
 
     elif has_school_started:
-        message["body"]: get_last_minute_message(user, notification["events"])
+        message["body"] = get_last_minute_message(user, notification["events"])
 
     TG = Telegram()
     TG.chat_notification(message)

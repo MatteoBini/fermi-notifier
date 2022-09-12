@@ -4,65 +4,71 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../JS/hamburger.js" defer></script>
+    <script src="JS/hamburger.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="IMG/favicon-black.ico">
     <!-- CSS -->
-    <link rel="stylesheet" href="../CSS/custom.css">
-    <link rel="stylesheet" href="../CSS/normalize.css">
-    <link rel="stylesheet" href="../CSS/responsive_grid.css">
-    <title>Home</title>
+    <link rel="stylesheet" href="CSS/general.css">
+    <link rel="stylesheet" href="CSS/custom.css">
+    <link rel="stylesheet" href="CSS/normalize.css">
+    <link rel="stylesheet" href="CSS/responsive_grid.css">
+    <title>Fermi Notify</title>
     <!-- FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&family=Montserrat:wght@100;400;500;700&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet"><body>
-</head>    
-<header>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&family=Montserrat:wght@100;400;500;700&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+
     <!-- NAVBAR -->
     <nav class="navbar">
-        <div class="logo">
-            <img src="http://kliu.win/img/fermi-notifier/logo-long-trasp.png">
-        </div>
-        <a href="#" class="hamburger">
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
-        </a>
-        <div class="nav-links">
-            <ul>
-                <li>
-                    <a href="/fermi-notifier/login">&gt <span>Home</a><!-- se il login è già stto effettuato, visualizzare il nome dell'utente-->
-                </li>
-                <li>
-                    <a href="#">&gt <span>Chi siamo</span></a>
-                </li>
-            </ul>
+        <div class="navbar-inner">
+            <a class="logo" href="/">
+                <img src="IMG/logo-long-white-trasp.png">
+            </a>
+            <a href="#" class="hamburger">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </a>
+            <div class="nav-links">
+                <ul>
+                    <li>
+                        <a href="./dashboard" class="spanHighlight"><span>&gt;</span> Area personale</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
-</header>
-    <% if (typeof message !== 'undefined' ) { %>
-      <p><%= message %></p>
-    <% } %>
+
     <!-- DYNAMIC TEXT -->
     <div class="container-title">
-        <div class="container-subtitle">
-            <p class="main-subtitle1">
-                &gt inserisci il tag  <br>
-            </p>
+        <div class="container-mid">
+            <div class="container-subtitle">
+                <p class="main-subtitle1">
+                    &gt; inserisci il tag  <br>
+                </p>
+            </div>
+            <div class="container-subtitle">
+                <p class="main-subtitle2">
+                    &gt; ricevi la notifica  <br>
+                </p>
+            </div>
+            <div class="container-subtitle">
+                <p class="main-subtitle3">
+                    &gt; rimani aggiornato  <br>
+                </p>
+            </div>
+            <div class="container-subtitle">
+                <p class="main-subtitle4">
+                    <span style="color: white;">&gt</span> sempre.  
+                </p>
+            </div>
         </div>
-        <div class="container-subtitle">
-            <p class="main-subtitle2">
-                &gt ricevi la notifica  <br>
-            </p>
-        </div>
-        <div class="container-subtitle">
-            <p class="main-subtitle3">
-                &gt rimani aggiornato  <br>
-            </p>
-        </div>
-        <div class="container-subtitle">
-            <p class="main-subtitle4">
-                <span style="color: white;">&gt</span> sempre.  <br>
-            </p>
-        </div>
+    </div>
+
+    <div class="footer">
+        <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+        <p>Questo sito utilizza cookie tecnici</p>
     </div>
 </body>
 </html>

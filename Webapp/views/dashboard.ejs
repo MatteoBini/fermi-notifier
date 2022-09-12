@@ -1,63 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Dashboard</title>
-  </head>
-  <body>
-    <h1>Dashboard</h1>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../JS/hamburger.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="../IMG/favicon-black.ico">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../CSS/custom.css" type="text/css">
+    <link rel="stylesheet" href="../CSS/normalize.css" type="text/css">
+    <link rel="stylesheet" href="../CSS/responsive_grid.css" type="text/css">
+    <link rel="stylesheet" href="../CSS/alertbanner.css" type="text/css">
+    <link rel="stylesheet" href="../CSS/general.css" type="text/css">
+    <title>Dashboard · Fermi Notify</title>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
+    <!-- jQuery 3.6.0 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a class="logo" href="/">
+                <img src="../IMG/logo-long-white-trasp.png">
+            </a>
+            <a href="#" class="hamburger">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </a>
+            <div class="nav-links">
+                <ul>
+                    <li>
+                        <a href="./logout" class="spanHighlight"><span>&gt;</span> Logout</a><!-- se il login è già stato effettuato, visualizzare il nome dell'utente-->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="dashboard">
+        <h1 class="firstTitle">Dashboard di <span id="USER-NAME"><%= user %></span></h1>
 
-    <h2>Ciao <%= user %></h2>
+        <h2 style="color: #F29C46; margin-bottom: 25px;"><span style="color: white;" id="greeting"></span> <span id="USER-NAME"><%= user %></span>,</h2>
+        
+        <!-- Keyword form -->
+        <div class="bigSection">
+            <h2 class="bigSectionTitle"><i class="fa-solid fa-key"></i> Le tue keywords</h2>
+            <ul>
+              <% if (locals.keywords) { %> <% keywords.forEach(kw => { %>
+              <li><%= kw %></li>
+              <% }) %> <% } %>
+            </ul>
+            <div class="keywords">
+                <label for="keywords"></label>
+                <div class="form-container">
+                  <div style="margin-left: 2%; ">
+                    <form action="/keyword" method="POST">
+                        <input 
+                          type="text" 
+                          id="keyword" 
+                          name="keyword" 
+                          placeholder="Aggiungi/Rimuovi parola chiave" 
+                          class="keyword-input"
+                          required 
+                        />
+                        <div style="margin-left: 32%;">
+                          <input 
+                            type="submit"
+                            value="Aggiungi"
+                            class="addButton"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <p class="sub-description">Per rimuovere una parola chiave, reinserirla.</p>
+                
+        <!------------------>
 
-    <a href="/fermi-notifier/logout">Logout</a>
+        <!-- Telegram -->
+        <div class="bigSection">
+            <h2 class="bigSectionTitle"><i class="fa-brands fa-telegram"></i> Telegram</h2>
+            <div class="description">
+                <p style="margin-bottom: 20px">Metodo di notifica alternativo/ausiliario alla posta elettronica consigliato (non obbligatorio).</p>
+                <p>Per essere notificato/a su telegram, manda:</p>
+                <p onclick="copy()" class="telegramCodeContainer"><i class="fa-solid fa-copy"></i> <span id="telegramCode">Xvm3kkq</span> <span id="copied">Copiato!</span></p>
+                a <b><a href="https://t.me/FermiNotifierBot" target="_blank">@FermiNotifierBot</a></b> su telegram.
+            </div>
+        </div>
+        <!------------------>
 
-    <h3>Le tue keywords</h3>
-    
-    <ul>
-      <% if (locals.keywords) { %> <% keywords.forEach(kw => { %>
-      <li><%= kw %></li>
-      <% }) %> <% } %>
-    </ul>
+        <!-- Notifiche -->
+        <h2 class="bigSectionTitle"><i class="fa-solid fa-bell"></i> Notifiche</h2>
+        <a href="#">&gt <span style="color: white;">hai ricevuto </span>3<span style="color: white;"> notifiche</span></a>
+        <!------------------>
+    </div>
+  </div></div>
 
+    <div class="footer">
+        <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+        <p>Questo sito utilizza cookie tecnici</p>
+    </div>
 
-    <form action="/fermi-notifier/keyword" method="POST">
-      <div>
-        <input 
-          type="text" 
-          id="keyword" 
-          name="keyword" 
-          placeholder="Aggiungi/Rimuovi parola chiave" 
-          required 
-        />
-      </div>
-      <div>
-        <input 
-          type="submit"
-          value="Invia"
-        />
-      </div>
-    </form>
-    <p>Per rimuovere una parola chiave, 
-      reinserirla.</p>
+<script>
+    // copy text
+    function copy(){
+        var r = document.createRange();
+        r.selectNode(document.getElementById("telegramCode"));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(r);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+        $('#copied').fadeIn(0);
+        copiatoText();
+        // fadeOut after 5000ms
+        setTimeout(() => {
+            $('#copied').fadeOut(100);
+        }, 5000);
+    }
+</script>
+<script>
+    var today = new Date();
+    var hour = today.getHours();
+    if(hour < 12){
+        document.getElementById("greeting").innerHTML = "Buongiorno";
+    }else if(hour < 18){
+        document.getElementById("greeting").innerHTML = "Buon pomeriggio";
+    }else{
+        document.getElementById("greeting").innerHTML = "Buona sera";
+    }
+</script>
 
-    <h3>Notifiche su Telegram</h3>
-    <p>Metodo di notifica alternativo/ausiliario 
-        alla posta elettronica consigliato 
-        (non obbligatorio).</p>
-    <% if (tgun.charAt(0) === 'X') { %> 
-      <p>Per essere notificato/a su telegram, scrivere </p>
-        <code><%= tgun %></code>
-      <p> a </p><code>@ciin_gcalendar_bot</code><p> su 
-        telegram.
-      </p>
-    <% } else { %>
-      <pre>Il tuo username telegram: <%= tgun %></pre>
-    <% } %>
+<script>
 
-    
-    <h3>Le tue notifiche</h3>
-    <p>Fin&apos;ora hai ricevuto <%= n_not %> notifiche.</p>
-  </body>
+		function copiatoText(){
+			// array with texts to type in typewriter
+			var dataText = ["Copiato!"];
+
+			// type one text in the typwriter
+			// keeps calling itself until the text is finished
+			function typeWriter(text, i, fnCallback) {
+				// chekc if text isn't finished yet
+				if (i < (text.length)) {
+					// add next character to h1
+					document.querySelector("#copied").innerHTML = text.substring(0, i + 1) + '<span class="caret" aria-hidden="true"></span>';
+
+					// wait for a while and call this function again for next character
+					setTimeout(function () {
+						typeWriter(text, i + 1, fnCallback)
+					}, 100);
+				}
+				// text finished, call callback if there is a callback function
+				else if (typeof fnCallback == 'function') {
+					// call callback after timeout
+					setTimeout(fnCallback, 700);
+				}
+			}
+			// start a typewriter animation for a text in the dataText array
+			function StartTextAnimation(i) {
+				if (typeof dataText[i] == 'undefined') {
+					setTimeout(function () {
+						StartTextAnimation(0);
+					}, 20000);
+				}
+				// check if dataText[i] exists
+				if (i < dataText[i].length) {
+					// text exists! start typewriter animation
+					typeWriter(dataText[i], 0, function () {
+					});
+				}
+			}
+			// start the text animation
+			StartTextAnimation(0);
+		}
+</script>
+</body>
 </html>

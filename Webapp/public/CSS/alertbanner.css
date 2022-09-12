@@ -1,0 +1,49 @@
+#alertbanner{
+	position: fixed;
+	bottom: 25px;
+	right: 7%;
+	padding: 15px;
+	border-radius: 15px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+	font-size: 16px;
+	cursor: default;
+	visibility: hidden;
+	max-width: 500px;
+	word-wrap: break-word;
+}
+
+#alertbanner:hover {
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+@keyframes showAlert {
+	0%{
+		visibility: hidden;
+		bottom: 25px;
+	}
+	100%{
+		visibility: visible;
+		bottom: 75px;
+	}
+}
+
+.errorbanner{
+	background-color: #b00020;
+	color: #fff;
+}
+.warningbanner{
+	background-color: #ff8800;
+	color: #fff;
+}
+.successbanner{
+	background-color: #007e33;
+	color: #fff;
+}
+
+@media only screen and (max-width: 720px) {
+    #alertbanner{
+		right: 10px;
+		max-width: 80vw;
+	}
+}

@@ -35,19 +35,19 @@ app.use(flash());
 
 app.set('case sensitive routing', true);
 
-app.get("/", (req, res) => {
-  res.render("home-servizi.ejs");
-});
-
-app.get("/fermi-notifier/", (req, res) =>{
+app.get("/", (req, res) =>{
   res.render("index.ejs");
 })
 
-app.get("/fermi-notifier/register", checkAuthenticated, (req, res) => {
+app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-app.get("/fermi-notifier/login", checkAuthenticated, (req, res) => {
+app.get("/credits", (req, res) => {
+  res.render("credits.ejs");
+});
+
+app.get("/login", checkAuthenticated, (req, res) => {
   // flash sets a messages variable. passport sets the error message
   if (req.session.flash != undefined){
     console.log(req.session.flash.error);
@@ -55,8 +55,7 @@ app.get("/fermi-notifier/login", checkAuthenticated, (req, res) => {
   res.render("login.ejs");
 });
 
-app.get("/fermi-notifier/dashboard", checkNotAuthenticated, async (req, res) => {
-  console.log(req.isAuthenticated());
+app.get("/dashboard", checkNotAuthenticated, async (req, res) => {
   let userName = await getUserName(req.user.email);
   let userKeywords = await getUserKeywords(req.user.email);
   let userTelegram = await getUserTelegram(req.user.email);
@@ -72,7 +71,7 @@ app.get("/fermi-notifier/dashboard", checkNotAuthenticated, async (req, res) => 
   });
 });
 
-app.get("/fermi-notifier/logout", (req, res, next) => {
+app.get("/logout", (req, res, next) => {
   req.logout(function(err){
     if (err) { return next(err); }
   });
@@ -82,20 +81,13 @@ app.get("/fermi-notifier/logout", (req, res, next) => {
 app.get("/users/register/confirmation/:id", async (req, res, next) => {
   let userId = req.params.id;
   const a = await incrementNumberNotification(userId);
-  res.redirect("/fermi-notifier/login");
+  res.redirect("/login");
 });
 
 app.post("/users/register", async (req, res) => {
   let { name, surname, email, password, password2 } = req.body;
 
   let errors = [];
-
-  console.log({
-    name,
-    email,
-    password,
-    password2
-  });
 
   if (!name || !email || !password || !password2) {
     errors.push({ message: "Please enter all fields" });
@@ -142,7 +134,7 @@ app.post("/users/register", async (req, res) => {
               throw err;
             }
             req.flash("success_msg", "Please check your mailbox for the confirmation email and complete the registration.");
-            res.redirect("/fermi-notifier/login");
+            res.redirect("/login");
           }
         );
       }
@@ -150,7 +142,7 @@ app.post("/users/register", async (req, res) => {
   );
 });
 
-app.post("/fermi-notifier/keyword", async function (req, res) {
+app.post("/keyword", async function (req, res) {
   /**
    * If the keyword has already been stored,
    * has to be removed.
@@ -197,21 +189,21 @@ app.post("/fermi-notifier/keyword", async function (req, res) {
     );
   }
 
-  res.redirect("/fermi-notifier/dashboard");
+  res.redirect("/dashboard");
 });
 
 app.post(
-  "/fermi-notifier/login",
+  "/login",
   passport.authenticate("local", {
-    successRedirect: "/fermi-notifier/dashboard",
-    failureRedirect: "/fermi-notifier/login",
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
     failureFlash: true
   })
 );
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect("/fermi-notifier/dashboard");
+    return res.redirect("/dashboard");
   }
   next();
 }
@@ -220,7 +212,7 @@ function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/fermi-notifier/login");
+  res.redirect("/login");
 }
 
 async function getTelegramTemporaryCode() {
@@ -329,6 +321,13 @@ async function incrementNumberNotification(telegramId){
 
 /* set static folder for css etc */
 app.use(express.static(path.join(__dirname, 'public')))
+
+/* set up 404 page (not found) */
+/* WARNING: This route has to be the last one!! */
+//The 404 Route (ALWAYS Keep this as the last route)
+app.get('*', function(req, res){
+  res.render("404.ejs");
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
