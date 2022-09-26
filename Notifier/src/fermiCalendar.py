@@ -71,8 +71,14 @@ def collect_notifications(subs: list[dict]) -> list[dict]:
         for evt in events:
             
             if usr_kw:
-                kw_in_subject = any((i.lower() in evt["subject"].lower()
-                                        for i in usr_kw))
+                kw_in_subject = any(((kw.lower() + " ") in (evt["subject"].lower() + " ")
+                                    for kw in usr_kw)) or \
+                                    any(((kw.lower() + ",") in 
+                                    (evt["subject"].lower() + " ") for kw in usr_kw))
+                # I append a space to the keyword so, for example, the user 
+                # with the tag 4E doesn't receive the information about the 
+                # events of 4EAU
+                
                 evt_not_in_db = evt["id"] not in sent
                         
                 if kw_in_subject and evt_not_in_db and is_event_today(evt):

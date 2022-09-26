@@ -73,6 +73,7 @@ class NotifierDB():
             user["telegram"] = i[5]
             user["tags"] = i[6]
             user["n_not"] = i[7]
+            user["gender"] = i[8]
             
             all_users.append(user)
 
@@ -269,4 +270,8 @@ def get_tg_offset() -> str:
     DB = NotifierDB()
     offset = DB.get_tg_offset()
     DB.close_connection()
-    return offset
+
+    if offset == '':
+        return
+    else:
+        return offset

@@ -1,0 +1,128 @@
+/*
+	total articles x padding: 22%
+*/
+
+.faqcontainer{
+	padding: 3% 7% 5% 7%;
+	color: #fff;
+}
+
+.question{
+	padding: 30px 5%;
+}
+
+.question a{
+	color: #fff ;
+}
+
+.answer{
+	line-height: 1.5em;
+}
+
+.answer-staccato{
+	padding-top: 10px;
+}
+
+.secondTitle{
+	border-left: 1px solid white;
+}
+
+.thirdTitle{
+	margin: 10px 0 15px 0;
+}
+
+.faqIndex{
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	text-align: center;
+	font-size: 1.14em;
+	font-weight: 500;
+	padding-bottom: 50px;
+}
+
+.indexElem{
+	cursor: pointer;
+	padding: 10px 0;
+	border-bottom: 3px solid #fff;
+	color: #fff !important;
+	text-decoration: none;
+}
+
+.indexElemActive{
+	border-bottom: 3px solid var(--highlighted-color) !important;
+	background-color: var(--highlighted-color);
+	font-weight: 700;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+.indexElemContainer{
+	display: none;
+}
+
+.indexElemShow{
+	display: block;
+}
+
+.emailButtonContainer{
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	flex-direction: column;
+	color: #fff;
+	margin-bottom: 5%;
+}
+
+.emailButton{
+	padding: 20px;
+	width: fit-content;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	border-radius: 10px;
+	border: 1px solid #fff;
+	margin: 10px;
+	color: #fff;
+	text-decoration: none;
+	transition: all 0.2s;
+}
+
+.emailButton i{
+	font-size: 2em;
+}
+
+.emailButton:hover{
+	background-color: var(--highlighted-color);
+	border: 1px solid var(--highlighted-color);
+}
+
+.faqIndexMobile{
+	display: none;
+}
+
+
+
+@media only screen and (max-width: 520px){
+	.faqIndex{
+		display: none;
+	}
+	.faqIndexMobile{
+		display: block;
+		width: 100%;
+	}
+	#faqIndex-select{
+		width: 100%;
+		padding: 10px;
+		border-radius: 10px;
+		border: 1px solid #fff;
+		margin: 10px 0;
+	}
+
+	.emailButtonContainer{
+		margin: 5% 0;
+	}
+}

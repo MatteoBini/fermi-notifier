@@ -23,7 +23,7 @@ def is_event_today(event: dict) -> bool:
         event_time = event["startDateTime"]
     event_is_today = str(datetime.fromisoformat(event_time))[:10] \
                     == str(datetime.today())[:10]
-    is_notification_time = time(7,55) < datetime.now().time()
+    is_notification_time = time(6,00) < datetime.now().time()
 
     return (event_is_today and is_notification_time)
 
@@ -37,6 +37,14 @@ def get_event_color() -> str:
     ]
 
     return choice(colors)
+
+def get_pronominal_particle(gender) -> str:
+    if gender == 'M':
+        return 'o'
+    elif gender == 'F':
+        return 'a'
+    else:
+        return 'ǝ'
 
 def get_mail_raw() -> str:
     return "Ci sono nuovi eventi che ti coinvolgono sul calendario giornaliero"
@@ -52,7 +60,7 @@ def get_mail_raw() -> str:
 ###      ACCOUNT CONFIRMATION EMAIL      ###
 
 def get_registration_mail_subject() -> str:
-    return "Fermi Notifier - Confirm registration"
+    return "Fermi Notify - Confirm registration"
 
 def get_registration_mail_body(name: str, verification_code: str) -> str:
     body = ""
@@ -87,17 +95,32 @@ def get_registration_mail_body(name: str, verification_code: str) -> str:
 ###          WELCOME EMAIL         ###
 
 def get_welcome_mail_subject() -> str:
-    return "Fermi Notifier - Welcome!"
+    return "Fermi Notify - Welcome!"
 
-def get_welcome_mail_body(username: str) -> str:
+def get_welcome_mail_body(user: dict) -> str:
     body = ""
     
     with open("emails/Welcome/01.htm") as f:
         body += f.read()
 
-    body += username
+    body += user["name"]
 
     with open("emails/Welcome/02.htm") as f:
+        body += f.read()
+
+    body += get_pronominal_particle(user["gender"])
+
+    with open("emails/Welcome/03.htm") as f:
+        body += f.read()
+
+    body += get_pronominal_particle(user["gender"])
+    
+    with open("emails/Welcome/04.htm") as f:
+        body += f.read()
+
+    body += get_pronominal_particle(user["gender"])
+
+    with open("emails/Welcome/05.htm") as f:
         body += f.read()
 
     return body
@@ -107,7 +130,7 @@ def get_welcome_mail_body(username: str) -> str:
 ###     DAILY NOTIFICATION EMAIL    ###
 
 def get_daily_notification_mail_subject(n_events: int) -> str:
-    subject = "Fermi Notifier - Daily notification ({n_events} "
+    subject = f"Fermi Notify - Daily notification ({n_events} "
     subject += f"event{'i' if n_events > 1 else 'o'})"
     return subject
     
@@ -171,7 +194,7 @@ def get_daily_notification_mail_body(receiver: dict, events: list) -> str:
 ###    LAST MINUTE EMAIL NOTIFICATION    ###
 
 def get_last_minute_notification_mail_subject():
-    return "Fermi Notifier - Last Minute Notification"
+    return "Fermi Notify - Last Minute Notification"
 
 def get_last_minute_notification_mail_body(receiver: dict, events: list) -> str:
     body = ""
@@ -259,7 +282,7 @@ def get_daily_notification_tg_message(receiver: dict, events: list) -> str:
         else:
             body += f"""`{_["endDateTime"][11:16]}`\n"""
         
-    body += "\nBuona giornata <3\n_Fermi Notifier Team_\n"
+    body += "\nBuona giornata <3\n_Fermi Notify Team_\n"
     body += "master@ferminotify.me"
 
     return body
@@ -289,5 +312,5 @@ def get_last_minute_message(receiver: dict, events: list) -> str:
 
     # footer
     body += f"""Ti auguriamo buon proseguimento di giornata.\n\n"""
-    body += f"""_Fermi Notifier Team_ \nmaster@ferminotify.me"""
+    body += f"""_Fermi Notify Team_ \nmaster@ferminotify.me"""
     return body

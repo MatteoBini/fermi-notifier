@@ -47,6 +47,10 @@ app.get("/credits", (req, res) => {
   res.render("credits.ejs");
 });
 
+app.get("/faq", (req, res) => {
+  res.render("faq.ejs");
+});
+
 app.get("/login", checkAuthenticated, (req, res) => {
   // flash sets a messages variable. passport sets the error message
   if (req.session.flash != undefined){
@@ -60,14 +64,16 @@ app.get("/dashboard", checkNotAuthenticated, async (req, res) => {
   let userKeywords = await getUserKeywords(req.user.email);
   let userTelegram = await getUserTelegram(req.user.email);
   let userNotifications = await getUserNotifications(req.user.email);
+  let userGender = await getUserGender(req.user.email);
 
-  // userNotifications = userNotifications + 1; // because of the starting at -2 in db
 
+  console.log(userGender);
   res.render("dashboard", { 
     user: userName,
     keywords: userKeywords,
     tgun: userTelegram,
-    n_not: userNotifications
+    n_not: userNotifications,
+    gender: userGender
   });
 });
 
@@ -75,7 +81,7 @@ app.get("/logout", (req, res, next) => {
   req.logout(function(err){
     if (err) { return next(err); }
   });
-  res.render("index.ejs", { message: "You have logged out successfully" });
+  res.render("index.ejs", { message: "Log out avvenuto con successo!" });
 });
 
 app.get("/users/register/confirmation/:id", async (req, res, next) => {
@@ -85,20 +91,22 @@ app.get("/users/register/confirmation/:id", async (req, res, next) => {
 });
 
 app.post("/users/register", async (req, res) => {
-  let { name, surname, email, password, password2 } = req.body;
+  let { name, surname, email, password, password2, gender } = req.body;
 
   let errors = [];
 
-  if (!name || !email || !password || !password2) {
-    errors.push({ message: "Please enter all fields" });
+  if (!name || !email || 
+      !password || !password2 || 
+      !gender) {
+    errors.push({ message: "Compila tutti i campi!" });
   }
 
   if (password.length < 6) {
-    errors.push({ message: "Password must be a least 6 characters long" });
+    errors.push({ message: "La password deve essere almeno 6 caratteri!" });
   }
 
   if (password !== password2) {
-    errors.push({ message: "Passwords do not match" });
+    errors.push({ message: "Le password non corrispondono!" });
   }
 
   if (errors.length > 0) {
@@ -120,19 +128,19 @@ app.post("/users/register", async (req, res) => {
 
       if (results.rows.length > 0) {
         return res.render("register", {
-          message: "Email already registered"
+          message: "Email già registrata!"
         });
       } else {
         pool.query(
-          `INSERT INTO subscribers (name, surname, email, password, notifications, telegram)
-              VALUES ($1, $2, $3, $4, $5, $6)
+          `INSERT INTO subscribers (name, surname, email, password, notifications, telegram, gender)
+              VALUES ($1, $2, $3, $4, $5, $6, $7)
               RETURNING id, password`,
-          [name, surname, email, hashedPassword, -2, telegramTemporaryCode],
+          [name, surname, email, hashedPassword, -2, telegramTemporaryCode, gender],
           (err, results) => {
             if (err) {
               throw err;
             }
-            req.flash("success_msg", "Please check your mailbox for the confirmation email and complete the registration.");
+            req.flash("success_msg", "Ti abbiamo inviato una mail per confermare l'account! (controlla anche la SPAM)");
             res.redirect("/login");
           }
         );
@@ -151,6 +159,8 @@ app.post("/keyword", async function (req, res) {
   let sentKeyword = req.body.keyword;
   let userKeywords = await getUserKeywords(req.user.email);
   
+  sentKeyword = sentKeyword.trim(); // remove spaces from start, end
+
   let occurrences = 0;
   if(userKeywords!=null){
     userKeywords.forEach(kw => {
@@ -305,12 +315,24 @@ async function getUserNotifications(user_email){
   }
 }
 
+async function getUserGender(user_email){
+  try {
+    const RES = await pool.query(
+      `SELECT gender FROM subscribers
+        WHERE email = '${user_email}'`,
+    );
+    return RES.rows[0].gender;
+  } catch (err) {
+    console.log(err.stack);
+  }
+}
+
 async function incrementNumberNotification(telegramId){
   try {
     const RES = await pool.query(
       `UPDATE subscribers
          SET notifications = notifications + 1
-       WHERE telegram = '${telegramId}';`
+       WHERE telegram = '${telegramId}' AND notifications = -1;`
     );
     return RES;
   } catch (err) {

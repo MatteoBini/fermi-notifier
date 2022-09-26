@@ -27,61 +27,22 @@
     width: auto;
     margin-right: 5%;
 }
-.main-subtitle1{
-    color: #fff;
-    text-align: center;
-    font-family: 'Source Code Pro', monospace;
-    width: 100%;
-    height: 100%;
-    margin-bottom: 0;
-    font-weight: 600;
-    font-size: 7vw;
-    color: white;
-    position: relative;
-    padding-bottom: 1%;
-}
-.main-subtitle2{
-    color: #fff;
-    text-align: center;
-    font-family: 'Source Code Pro', monospace;
-    width: 100%;
-    height: 100%;
-    margin-bottom: 0;
-    font-weight: 600;
-    font-size: 7vw;
-    float: left;
-    color: white;
-    position: relative;
-    padding-bottom: 1%;
-}
-.main-subtitle3{
-    color: #fff;
-    text-align: center;
-    font-family: 'Source Code Pro', monospace;
-    width: 100%;
-    height: 100%;
-    margin-bottom: 0;
-    font-weight: 600;
-    font-size: 7vw;
-    float: left;
-    color: white;
-    position: relative;
-    padding-bottom: 1%;
-}
-.main-subtitle4{
-    color: #fff;
-    text-align: center;
-    font-family: 'Source Code Pro', monospace;
-    width: 100%;
-    height: 100%;
-    margin-bottom: 0;
-    font-weight: 600;
-    font-size: 7vw;
-    float: left;
-    color: var(--highlighted-color);
-    position: relative;
-    padding-bottom: 1%;
 
+.container-subtitle p{
+    color: #fff;
+    text-align: center;
+    font-family: 'Source Code Pro', monospace;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 0;
+    font-weight: 600;
+    font-size: 5vh;
+    float: left;
+    position: relative;
+    padding-bottom: 1%;
+}
+.container-subtitle:nth-last-child(1) p{
+    color: var(--highlighted-color);
 }
 /* CONTAINERS */
 .container-title{
@@ -93,9 +54,9 @@
 }
 .container-mid{
     width: 100%;
-    padding-right: 35%;
     display: grid;
-    width: auto;
+    place-items: left;
+    padding-left: 15%;
 }
 .container-subtitle{
     float: left;
@@ -114,18 +75,12 @@
 
 /* MEDIA QUERY*/
 
-@media only screen and (min-width: 720px) {
-    .main-subtitle1{
-        font-size: 5vh;
+@media only screen and (max-width: 720px) {
+    .container-subtitle p{
+        font-size: 7vw;
     }
-    .main-subtitle2{
-        font-size: 5vh;
-    }
-    .main-subtitle3{
-        font-size: 5vh;
-    }
-    .main-subtitle4{
-        font-size: 5vh;
+    .container-mid{
+        padding-left: 5%;
     }
 }
 
@@ -210,38 +165,37 @@ p.main-subtitle4::after{
 
 /* FORM */
 
-#registerForm{
+#form{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
 
-.form-container{
-    margin: 15px 0;
-    display: flex;
-    align-items: center;
-    height: 50px;
-}
 
-.loginFormContainer{
+
+.formContainer{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: calc(100vh - 69px - 69px);
+    height: auto;
+    min-height: calc(100vh - 69px - 69px);
     margin-bottom: calc(69px - 50px); /* push footer to the bottom */
 }
 
 .confirm{
     margin: 15px 0;
     font-size: 1.2em;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
     border-radius: 10px;
-    padding: 5px 15px;
+    padding: 15px;
     background-color: var(--highlighted-color);
     color: #fff;
+    width:fit-content;
+    height: 100%;
+    border: none;
 }
 
 .confirm:active{
@@ -264,11 +218,11 @@ p.main-subtitle4::after{
 }
 
 .fname{
-    padding-right: 20px;
+    padding-right: 10px;
 }
 
 .lname{
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 .title{
@@ -276,7 +230,7 @@ p.main-subtitle4::after{
 }
 /* Full-width input fields */
 input{
-    width: 100%;
+    width: calc(100% - 30px);
     padding: 15px;
     margin: 5px 0 0 0;
     display: inline-block;
@@ -292,14 +246,18 @@ input:focus{
     background-color: #fff;
 }
 
+.gender-select:focus{
+    outline-color: var(--highlighted-color);
+    background-color: #fff;
+}
+
 .inserted{
-    background: #f0f0f0;
+    background: #ddd;
 }
 
 @media only screen and (max-width: 850px){
     .inputs{
         width: 80%;
-        margin-right: 7%;
     }
 }
 
@@ -313,11 +271,37 @@ label{
 
 #PSWShowHideIcon{
     position: absolute;
-    right: -15px; /* input padding */
+    right: 5px;
     top: -2px; /* idk */
     height: 48px; /* input height + input padding */
     transform: translate(-50%, 50%);
     cursor: pointer;
+}
+
+.gender{
+    display: flex;
+    flex-direction: column;
+}
+
+.gender-select{
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 0 0;
+    display: inline-block;
+    border: none;
+    border-radius: 10px;
+    border: 1px solid #dadce0;
+    height: 50px;
+    color: #000;
+}
+
+.gender-select:focus{
+    outline-color: var(--highlighted-color);
+    background-color: #fff;
+}
+
+.gender-select-placeholder{
+    display: none;
 }
 
 /* ---------------------- */
@@ -342,6 +326,7 @@ label{
     text-decoration: none;
     color: var(--highlighted-color);
 }
+
 .description{
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
@@ -349,7 +334,12 @@ label{
 .sub-description{
     font-family: 'Montserrat', sans-serif;
     font-weight: 100;
-    padding-top: 5%;
+}
+
+.keywords{
+    display: grid;
+    grid-template-columns: min(80%, 500px) 20%;
+    margin: 15px 0;
 }
 
 .keyword-input{
@@ -357,12 +347,19 @@ label{
 }
 
 .addButton{
+    margin-top: 5px;
+    margin-left: min(10%, 15px);
     font-size: 1em;
-    color: #fff;
+    font-weight: 600;
     cursor: pointer;
-    width: 70%;
+    border-radius: 10px;
     background-color: var(--highlighted-color);
-    height: 20%;
+    color: #fff;
+    width:min(80%, 40px);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .addButton:active{
     background-color: var(--highlighted-color-active);
@@ -382,6 +379,36 @@ label{
 .bigSectionTitle i{
     color: var(--highlighted-color);
 }
+
+
+.keywords-container{
+    padding-left: 3%;
+}
+
+.keywords-info{
+    margin: 4px 7px;
+    border-left: 1px solid var(--highlighted-color);
+}
+
+.keywords-info li{
+    padding: 4px 0;
+    list-style: none;
+}
+
+@media only screen and (max-width: 1280px){
+    .keywords-info li{
+        list-style: disc;
+    }
+}
+
+#maggioriInfo{
+    cursor: pointer;
+}
+
+#maggioriInfo i{
+    color: var(--highlighted-color);
+}
+
 
 #telegramCode{
     margin: 10px 0;
@@ -425,7 +452,3 @@ label{
 
 
 /* ---------------------- */
-
-.keywords{
-    padding-top: 5%;
-}

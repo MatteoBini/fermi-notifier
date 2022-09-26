@@ -11,11 +11,8 @@
     <link rel="stylesheet" href="CSS/custom.css">
     <link rel="stylesheet" href="CSS/normalize.css">
     <link rel="stylesheet" href="CSS/responsive_grid.css">
+    <link rel="stylesheet" href="CSS/alertbanner.css">
     <title>Fermi Notify</title>
-    <!-- FONT -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&family=Montserrat:wght@100;400;500;700&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -66,8 +63,21 @@
         </div>
     </div>
 
+    <% if (typeof message !== 'undefined' ) { %>
+
+        <div id="alertbanner" class="successbanner">
+            <p id="alertmessage"><i class="fa-solid fa-check"></i> <%= message %></p>
+        </div>
+        <script>
+            document.getElementById("alertbanner").style.animation = "showAlert 0.5s ease-in-out forwards";
+        </script>
+    <% } %>
+
     <div class="footer">
-        <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+        <div>
+            <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
+            <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+        </div>
         <p>Questo sito utilizza cookie tecnici</p>
     </div>
 </body>

@@ -25,7 +25,7 @@
             <a class="logo" href="/">
                 <img src="../IMG/logo-long-white-trasp.png">
             </a>
-            <a href="#" class="hamburger">
+            <a class="hamburger">
                 <span class="line"></span>
                 <span class="line"></span>
                 <span class="line"></span>
@@ -40,57 +40,66 @@
         </div>
     </nav>
     <div class="dashboard">
-        <h1 class="firstTitle">Dashboard di <span id="USER-NAME"><%= user %></span></h1>
+        <h1 class="firstTitle">Dashboard di <%= user %></h1>
 
-        <h2 style="color: #F29C46; margin-bottom: 25px;"><span style="color: white;" id="greeting"></span> <span id="USER-NAME"><%= user %></span>,</h2>
+        <h2 style="margin-bottom: 25px; color:#fff"><span id="greeting"></span> <span style="color: var(--highlighted-color)"><%= user %></span>,</h2>
         
         <!-- Keyword form -->
         <div class="bigSection">
             <h2 class="bigSectionTitle"><i class="fa-solid fa-key"></i> Le tue keywords</h2>
-            <ul>
-              <% if (locals.keywords) { %> <% keywords.forEach(kw => { %>
-              <li><%= kw %></li>
-              <% }) %> <% } %>
-            </ul>
-            <div class="keywords">
-                <label for="keywords"></label>
-                <div class="form-container">
-                  <div style="margin-left: 2%; ">
-                    <form action="/keyword" method="POST">
+
+            <div class="keywords-container">
+
+                <ul style="list-style: square inside; padding: 0;">
+                    <% if (locals.keywords) { %> <% keywords.forEach(kw => { %>
+                        <li><%= kw %></li>
+                    <% }) %> <% } %>
+                </ul>
+
+                    
+                    <form action="/keyword" method="POST" class="keywords">
+
                         <input 
-                          type="text" 
-                          id="keyword" 
-                          name="keyword" 
-                          placeholder="Aggiungi/Rimuovi parola chiave" 
-                          class="keyword-input"
-                          required 
+                            type="text" 
+                            id="keyword" 
+                            name="keyword" 
+                            placeholder="Aggiungi/Rimuovi parola chiave" 
+                            class="keyword-input"
+                            required 
                         />
-                        <div style="margin-left: 32%;">
-                          <input 
-                            type="submit"
-                            value="Aggiungi"
-                            class="addButton"
-                          />
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                  <p class="sub-description">Per rimuovere una parola chiave, reinserirla.</p>
+
+                        <button class="addButton" type="submit"><i class="fa-solid fa-chevron-right"></i></button>
+                            
+                    </form>
+
+
+                <p class="sub-description" id="maggioriInfo"><i class="fa-solid fa-circle-info"></i> Maggiori informazioni</p>
+                <ul class="keywords-info" id="keywordsInfo" style="display: none;">
+                    <li>Aggiungi le parole chiave alla lista per essere notificat<%= gender=='M'?'o':(gender=='F'?'a':'ǝ') %> quando è presente un evento che la riguarda nel calendario giornaliero.</li>
+                    <li>Per rimuovere una parola chiave, reinseriscila.</li>
+                    <li>Le keywords non sono case sensitive: &egrave; indifferente scriverle in maiuscolo o in minuscolo.</li>
+                    <li>Per pi&ugrave; informazioni, visita il <a href="./faq" style="text-decoration:underline">FAQ</a>.</li>
+                </ul>
+
+            </div>
                 
         <!------------------>
 
         <!-- Telegram -->        
-        <div class="bigSection">
+        <div class="bigSection" id="Telegram">
             <h2 class="bigSectionTitle"><i class="fa-brands fa-telegram"></i> Telegram</h2>
+            <% if (tgun.charAt(0) === 'X') { %> 
+                <p style="margin-bottom: 5px">Metodo di notifica ausiliario alla posta elettronica (facoltativo).
+                <p style="margin-bottom: 20px">Ricevi la notifica tramite messaggio su Telegram.</p>
+                <p>Per essere notificat<%= gender=='M'?'o':(gender=='F'?'a':'ǝ') %> su Telegram, manda </p>
+                <p onclick="copy()" class="telegramCodeContainer"><i class="fa-solid fa-copy"></i> <span id="telegramCode"><code><%= tgun %></code></span> <span id="copied">Copiato!</span></p>
+                a <b><a href="https://t.me/FermiNotifierBot" target="_blank">@FermiNotifierBot</a></b> su Telegram.</p>
+            <% } else { %>
+                <p>Il tuo account telegram risulta correttamente collegato! (Id: <code><%= tgun %></code>)</p>
+            <% } %>
             <div class="description">
-                <p style="margin-bottom: 20px">Metodo di notifica alternativo/ausiliario alla posta elettronica consigliato (non obbligatorio).</p>
-                <% if (tgun.charAt(0) === 'X') { %> 
-                    <p>Per essere notificato/a su telegram, manda </p>
-                      <p onclick="copy()" class="telegramCodeContainer"><i class="fa-solid fa-copy"></i> <span id="telegramCode"><code><%= tgun %></code></span> <span id="copied">Copiato!</span></p>
-                      a <b><a href="https://t.me/FermiNotifierBot" target="_blank">@FermiNotifierBot</a></b> su telegram.</p>
-                <% } else { %>
-                <pre>Il tuo username telegram: <%= tgun %></pre>
-                <% } %>
+                
+
             </div>
         </div>
         <!------------------>
@@ -103,7 +112,10 @@
   </div></div>
 
     <div class="footer">
-        <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+        <div>
+            <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
+            <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+        </div>
         <p>Questo sito utilizza cookie tecnici</p>
     </div>
 
@@ -179,5 +191,13 @@
 			StartTextAnimation(0);
 		}
 </script>
+
+<script>
+    // show/hide keywords info
+    $('#maggioriInfo').click(function(){
+        $('#keywordsInfo').slideToggle(500);
+    });
+</script>
+
 </body>
 </html>

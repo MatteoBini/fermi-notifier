@@ -40,15 +40,15 @@
         </div>
     </nav>
 
-<form id="registerForm" class="loginFormContainer" action="/users/register" method="POST" onSubmit="check()">
+<form id="form" class="formContainer" action="/users/register" method="POST">
     <h1 class="title"><span style="color: #F29C46;">&gt;</span> iscriviti</h1>
     <div class="nomecognome inputs">
         <div class="fname">
-            <label for="Nome" id="fname-label">Nome</label>
+            <label for="Nome" id="name-label">Nome</label>
             <input type="text" placeholder="Nome" name="name" id="name" required class="input-box">
         </div>
         <div class="lname">
-            <label for="Cognome" id="lname-label">Cognome</label>
+            <label for="Cognome" id="surname-label">Cognome</label>
             <input type="text" placeholder="Cognome" name="surname" id="surname" required class="input-box">
         </div>
     </div>
@@ -57,23 +57,48 @@
         <input type="email" placeholder="Email" name="email" id="email" required class="input-box">
     </div>
     <div class="psw inputs">
-        <label for="Password" id="psw-label">Password</label>
+        <label for="Password" id="password-label">Password</label>
         <div class="psw-bar">
             <input type="password" placeholder="Password" name="password" id="password" required class="input-box">
             <span id="PSWShowHideIcon" onclick="ShowPSW()"><i class="fa-solid fa-eye-slash"></i></span>
         </div>
     </div>
     <div class="confirm-psw inputs">
-        <label for="Conferma Password" id="confirm-psw-label">Conferma password</label>
+        <label for="Conferma Password" id="password2-label">Conferma password</label>
         <input type="password" placeholder="Conferma" name="password2" id="password2" required class="input-box">
     </div>
-    <div class="confirm">
-        <input type="submit" value="Register" style="width:100%; height: 100%; background-color: #F29C46; color: white; margin: auto; border-color: #F29C46"/>
+    <div class="gender inputs">
+        <label for="Gender" id="gender-label">Genere</label>
+        <select class="gender-select" id="gender">
+            <option id="F" value="female">Donna (F)</option>
+            <option id="M" value="male">Uomo (M)</option>
+            <option id="X" value="other">Altro (ǝ)</option>
+            <option id="gender-placeholder" class="gender-select-placeholder" selected value="placeholder">Genere</option>
+        </select>
     </div>
+
+    <input class="confirm" type="submit" value="Registrati"/>
+
 </form>
 
+<% if (typeof errors != 'undefined') { %> 
+    <div id="alertbanner" class="errorbanner">
+        <ul style="list-style: none; padding-left: 0;">
+            <% errors.forEach(error => { %>
+                <li id="alertmessage"><i class="fa-solid fa-circle-exclamation"></i> <%= error.message %></li>
+            <% }) %> 
+        </ul>
+    </div>
+    <script>
+        document.getElementById("alertbanner").style.animation = "showAlert 0.5s ease-in-out forwards";
+    </script>
+<% } %>
+
 <div class="footer">
-    <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+    <div>
+        <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
+        <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+    </div>
     <p>Questo sito utilizza cookie tecnici</p>
 </div>
 
@@ -94,6 +119,23 @@
             $("#"+labelID).css("color", "#fff");
         });
     });
+
+    
+    $( ".gender-select" ).on('change', function() {
+        if($(".gender-select  option:selected").val()!="placeholder"){
+            $(this).addClass('inserted');
+        }
+        if($(".gender-select  option:selected").val()=="placeholder"){
+            $(this).removeClass('inserted');
+        }
+    });
+
+    $(".gender-select").on('focus', function(){
+        $("#gender-label").css("color", "var(--highlighted-color)");
+        $(this).on("focusout", function() {
+            $("#gender-label").css("color", "#fff");
+        });
+    })
 </script>
 
 <script src="../JS/ShowPSW.js"></script>

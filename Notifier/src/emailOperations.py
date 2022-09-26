@@ -32,7 +32,7 @@ class Email:
         return
 
 
-    def notifyAdmin(self, new_user: str) -> None:
+    def notify_admin(self, new_user: str) -> None:
         msg = EmailMessage()
         msg["Subject"] = "Nuovo iscritto Calendar Notifier"
         msg["From"] = "Fermi Notify Team <master@ferminotify.me>"
@@ -70,9 +70,6 @@ class Email:
 def send_email(email: dict) -> None:
     EM = Email()
 
-    if email["isWelcome"]:
-        EM.notifyAdmin(email["Receiver"])
-
     EM.sendHTMLMail(
         email["Receiver"], email["Subject"],
         email["Raw"], email["Body"]
@@ -82,6 +79,13 @@ def send_email(email: dict) -> None:
     return 
 
 
+def notify_admin(new_user: str) -> None:
+    EM = Email()
+
+    EM.notify_admin(new_user)
+    EM.closeConnection()
+
+    return 
 
 ###############################################
 #                                             #
@@ -102,7 +106,6 @@ def pending_registration(subs: list[dict]) -> None:
                 "Receiver_id": sub["id"],
                 "Receiver": sub["email"],
                 "Uid": ["conferma_registrazione"],
-                "isWelcome": False,
                 "Subject": get_registration_mail_subject(),
                 "Raw": get_mail_raw(),
                 "Body": get_registration_mail_body(sub["name"], 
@@ -126,12 +129,12 @@ def welcome_notification(subs: list[dict]) -> None:
                 "Receiver": sub["email"],
                 "Subject": get_welcome_mail_subject(),
                 "Raw": get_mail_raw(),
-                "Body": get_welcome_mail_body(sub["name"]),
-                "isWelcome": True,
+                "Body": get_welcome_mail_body(sub),
                 "receiver_id": sub["id"]
             }
             send_email(email)
             increment_notification_number(sub["id"])
+            notify_admin(email["Receiver"])
     
     return
 
@@ -158,11 +161,10 @@ def email_notification(notification: dict) -> None:
         "Receiver": user["email"],
         "Raw": get_mail_raw(),
         "Uid": [i["id"] for i in notification["events"]],
-        "isWelcome": False,
     }
 
-    is_dailynotification_time =  time(7,55) < datetime.now().time() < time(8,10)
-    has_school_started = datetime.now().time() > time(8,10)
+    is_dailynotification_time =  time(6,00) < datetime.now().time() < time(6,15)
+    has_school_started = datetime.now().time() > time(6,15)
 
     if is_dailynotification_time:
         email["Subject"] = get_daily_notification_mail_subject(
