@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="../IMG/favicon-black.ico">
-    <script src="../JS/hamburger.js" defer></script>
+    <meta name="description" content="Login a Fermi Notify.">
+    <link rel="icon" type="image/x-icon" href="/IMG/favicon-black.ico">
+    <script src="/JS/hamburger.js" defer></script>
     <!-- CSS -->
-    <link rel="stylesheet" href="../CSS/custom.css" type="text/css">
-    <link rel="stylesheet" href="../CSS/normalize.css" type="text/css">
-    <link rel="stylesheet" href="../CSS/responsive_grid.css" type="text/css">
-    <link rel="stylesheet" href="../CSS/alertbanner.css" type="text/css">
-    <link rel="stylesheet" href="../CSS/general.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/custom.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/normalize.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/responsive_grid.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/alertbanner.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/general.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/form.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
     
@@ -23,9 +25,9 @@
         <nav class="navbar">
             <div class="navbar-inner">
                 <a class="logo" href="/">
-                    <img src="../IMG/logo-long-white-trasp.png">
+                    <img src="/IMG/nav-logo.png">
                 </a>
-                <a href="#" class="hamburger">
+                <a class="hamburger">
                     <span class="line"></span>
                     <span class="line"></span>
                     <span class="line"></span>
@@ -33,14 +35,13 @@
                 <div class="nav-links">
                     <ul>
                         <li>
-                            <a href="./register" class="spanHighlight"><span>&gt;</span> Iscriviti</a>
+                            <a href="./register" class="spanHighlight"><span>&gt;</span> Registrati</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-
-<form id="form" class="formContainer" action="/login" method="POST">
+<form id="form" class="formContainer" onsubmit="loading()" action="/login" method="POST">
     <h1 class="title"><span style="color: var(--highlighted-color);">&gt;</span> login</h1>
     <div class="email inputs">
         <label for="Email" id="email-label">Email</label>
@@ -53,25 +54,24 @@
             <span id="PSWShowHideIcon" onclick="ShowPSW()"><i class="fa-solid fa-eye-slash"></i></span>
         </div>
     </div>
-    
-    <input class="confirm" type="submit" value="Accedi"/>
+    <button id="submit-btn" class="btn-bg margin-y15px">Accedi</button>
+
+    <p class="post-form-msg">Non hai un account? <a href="./register">Registrati</a></p>
 
 </form>
-
-
     
-        <% if (typeof errors != 'undefined') { %> 
-            <div id="alertbanner" class="errorbanner">
-                <ul style="list-style: none; padding-left: 0;">
-                    <% errors.forEach(error => { %>
-                        <li id="alertmessage"><i class="fa-solid fa-circle-exclamation"></i> <%= error.message %></li>
-                    <% }) %> 
-                </ul>
-            </div>
-            <script>
-                document.getElementById("alertbanner").style.animation = "showAlert 0.5s ease-in-out forwards";
-            </script>
-        <% } %>
+    <% if (typeof errors != 'undefined') { %> 
+        <div id="alertbanner" class="errorbanner">
+            <ul style="list-style: none; padding-left: 0;">
+                <% errors.forEach(error => { %>
+                    <li id="alertmessage"><i class="fa-solid fa-circle-exclamation"></i> <%= error.message %></li>
+                <% }) %> 
+            </ul>
+        </div>
+        <script>
+            document.getElementById("alertbanner").style.animation = "showAlert 0.5s ease-in-out forwards";
+        </script>
+    <% } %>
     
 
 
@@ -99,15 +99,17 @@
 
 
 <div class="footer">
-    <div>
-        <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
-        <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+    <div class="footer-inner">
+        <div>
+            <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
+            <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+        </div>
+        <p>Questo sito utilizza cookie tecnici</p>
     </div>
-    <p>Questo sito utilizza cookie tecnici</p>
 </div>
 
 <script>
-    $('input').on('change', function(){ // quando tag input cambia => function()
+    $('input').on('change', function(){
          if($(this).val()==""){
             $(this).removeClass('inserted');
          }
@@ -125,7 +127,25 @@
     });
 </script>
 
-<script src="../JS/ShowPSW.js"></script>
+<script src="/JS/submit-loading.js"></script>
+
+<script src="/JS/ShowPSW.js"></script>
+
+<% if (typeof notOfficial !== 'undefined' ) { %>
+
+    <div id="alertbanner" class="warningbanner">
+        <p id="alertmessage"><i class="fa-solid fa-check"></i> <%= notOfficial %></p>
+    </div>
+    <script>
+        document.getElementById("alertbanner").style.animation = "showAlert 0.5s ease-in-out forwards";
+    </script>
+<% } %>
 
 </body>
+
+<!-- preload img -->
+<div id="preloadedImages" style="display: none;">
+	<img src="/IMG/loading.png">
+</div>
+
 </html>

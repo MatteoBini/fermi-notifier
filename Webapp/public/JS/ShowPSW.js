@@ -1,3 +1,9 @@
+var submitBtn = document.getElementById("submit-btn");
+var width = window.getComputedStyle(submitBtn).getPropertyValue('width');
+var height = window.getComputedStyle(submitBtn).getPropertyValue('height');
+submitBtn.style.width = width;
+submitBtn.style.height = height;
+
 function ShowPSW() {
 	var id = document.getElementById("password");
 	if (id.type === "password") {

@@ -1,4 +1,4 @@
-`Reliability testing status`
+
 # Notifier
 Questa cartella contiene il codice in linguaggio Python che viene eseguito runtime sui server [Heroku](https://www.heroku.com/) (le indicazioni di esecuzione sono nel `Procfile`).
 

@@ -23,7 +23,7 @@ function initialize(passport) {
            * of notifications is negative, otherwise is positive
            */
           if (user.notifications < 0) {
-            return done(null, false, { message: "Email not yet confirmed" });
+            return done(null, false, { message: "Email non ancora confermata" });
           }
           
           /**
@@ -37,13 +37,13 @@ function initialize(passport) {
               return done(null, user);
             } else {
               //password is incorrect
-              return done(null, false, { message: "Password is incorrect" });
+              return done(null, false, { message: "La password è scorretta" });
             }
           });
         } else {
           // No user
           return done(null, false, {
-            message: "No user with that email address"
+            message: "Non sono registrati utenti con quella email"
           });
         }
       }

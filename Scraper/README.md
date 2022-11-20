@@ -1,4 +1,4 @@
-`Reliability testing status`
+
 # Scraper
 Questa cartella contiene codice in linguaggio google script, implementato nel documento [calendar-spreadsheet](https://docs.google.com/spreadsheets/d/1b7Enw5zME2qPSeRXSIIQjhyKkv7qkRJPDsOCqyygvU4/edit?usp=sharing). 
 La codebase in python, riesce ad accedere al documento tramite uno speciale link che restituisce la tabella in formato `csv`.

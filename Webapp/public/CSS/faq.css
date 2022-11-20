@@ -1,10 +1,13 @@
-/*
-	total articles x padding: 22%
-*/
-
 .faqcontainer{
-	padding: 3% 7% 5% 7%;
-	color: #fff;
+	padding: 50px 0;
+}
+@media only screen and (min-width: 980px) {
+	.faqcontainer{
+		width: 980px;
+	}
+	.content-inner{
+		padding: 0 !important;
+	}
 }
 
 .question{
@@ -16,7 +19,7 @@
 }
 
 .answer{
-	line-height: 1.5em;
+	line-height: 1.5;
 }
 
 .answer-staccato{
@@ -73,7 +76,7 @@
 	width: 100%;
 	flex-direction: column;
 	color: #fff;
-	margin-bottom: 5%;
+	margin-bottom: 80px; /* margin top is 80px (50px faqcontainer + 30px question) */
 }
 
 .emailButton{
@@ -113,6 +116,7 @@
 	.faqIndexMobile{
 		display: block;
 		width: 100%;
+		padding-bottom: 30px;
 	}
 	#faqIndex-select{
 		width: 100%;
@@ -120,9 +124,5 @@
 		border-radius: 10px;
 		border: 1px solid #fff;
 		margin: 10px 0;
-	}
-
-	.emailButtonContainer{
-		margin: 5% 0;
 	}
 }

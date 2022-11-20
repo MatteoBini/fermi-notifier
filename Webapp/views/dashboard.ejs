@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../JS/hamburger.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="../IMG/favicon-black.ico">
+    <meta name="description" content="Dashboard di Fermi Notify.">
+    <script src="/JS/hamburger.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="/IMG/favicon-black.ico">
     <!-- CSS -->
-    <link rel="stylesheet" href="../CSS/custom.css" type="text/css">
-    <link rel="stylesheet" href="../CSS/normalize.css" type="text/css">
-    <link rel="stylesheet" href="../CSS/responsive_grid.css" type="text/css">
-    <link rel="stylesheet" href="../CSS/alertbanner.css" type="text/css">
-    <link rel="stylesheet" href="../CSS/general.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/custom.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/normalize.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/responsive_grid.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/alertbanner.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/general.css" type="text/css">
+    <link rel="stylesheet" href="/CSS/form.css" type="text/css">
     <title>Dashboard · Fermi Notify</title>
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
@@ -23,7 +25,7 @@
     <nav class="navbar">
         <div class="navbar-inner">
             <a class="logo" href="/">
-                <img src="../IMG/logo-long-white-trasp.png">
+                <img src="/IMG/nav-logo.png">
             </a>
             <a class="hamburger">
                 <span class="line"></span>
@@ -33,171 +35,294 @@
             <div class="nav-links">
                 <ul>
                     <li>
-                        <a href="./logout" class="spanHighlight"><span>&gt;</span> Logout</a><!-- se il login è già stato effettuato, visualizzare il nome dell'utente-->
+                        <a href="./logout" class="spanHighlight"><span>&gt;</span> Logout</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="dashboard">
-        <h1 class="firstTitle">Dashboard di <%= user %></h1>
 
-        <h2 style="margin-bottom: 25px; color:#fff"><span id="greeting"></span> <span style="color: var(--highlighted-color)"><%= user %></span>,</h2>
-        
-        <!-- Keyword form -->
-        <div class="bigSection">
-            <h2 class="bigSectionTitle"><i class="fa-solid fa-key"></i> Le tue keywords</h2>
+    <div class="content minHeight-100vh">
+        <div class="content-inner">
+            <div class="dashboard">
+                <h1 class="firstTitle">Dashboard di <%= user %></h1>
 
-            <div class="keywords-container">
+                <h2 style="margin-bottom: 25px; color:#fff"><span id="greeting" class="selected-highlight"></span> <span class="highlighted-text"><%= user %></span>,</h2>
 
-                <ul style="list-style: square inside; padding: 0;">
-                    <% if (locals.keywords) { %> <% keywords.forEach(kw => { %>
-                        <li><%= kw %></li>
-                    <% }) %> <% } %>
-                </ul>
+                <p class="sub-description"><i class="fa-solid fa-triangle-exclamation"></i> Il sistema non è ufficialmente riconosciuto dalla presidenza dell'Istituto Superiore "Enrico Fermi" di Mantova. Eventuali malfunzionamenti sono a carico dello staff e non sono valide giustificazioni in uffici di segreteria e presidenza.</p>
 
-                    
-                    <form action="/keyword" method="POST" class="keywords">
+                <!-- Keyword form -->
+                <div class="bigSection">
+                    <h2 class="bigSectionTitle selected-highlight"><i class="fa-solid fa-key"></i> Le tue keywords</h2>
 
-                        <input 
-                            type="text" 
-                            id="keyword" 
-                            name="keyword" 
-                            placeholder="Aggiungi/Rimuovi parola chiave" 
-                            class="keyword-input"
-                            required 
-                        />
+                    <div class="keywords-container">
 
-                        <button class="addButton" type="submit"><i class="fa-solid fa-chevron-right"></i></button>
-                            
-                    </form>
+                        <ul style="list-style: square inside; padding: 0;">
+                            <% if (locals.keywords) { %>
+                                <% keywords.forEach(kw=> { %>
+                                    <li>
+                                        <%= kw %>
+                                    </li>
+                                <% }) %>
+                            <% } %>
+                        </ul>
 
 
-                <p class="sub-description" id="maggioriInfo"><i class="fa-solid fa-circle-info"></i> Maggiori informazioni</p>
-                <ul class="keywords-info" id="keywordsInfo" style="display: none;">
-                    <li>Aggiungi le parole chiave alla lista per essere notificat<%= gender=='M'?'o':(gender=='F'?'a':'ǝ') %> quando è presente un evento che la riguarda nel calendario giornaliero.</li>
-                    <li>Per rimuovere una parola chiave, reinseriscila.</li>
-                    <li>Le keywords non sono case sensitive: &egrave; indifferente scriverle in maiuscolo o in minuscolo.</li>
-                    <li>Per pi&ugrave; informazioni, visita il <a href="./faq" style="text-decoration:underline">FAQ</a>.</li>
-                </ul>
+                        <form action="/keyword" method="POST" class="keywords" onsubmit="loading()">
 
+                            <input type="text" id="keyword" name="keyword" placeholder="Aggiungi/Rimuovi parola chiave"
+                                class="keyword-input" required />
+
+                            <button class="addButton" type="submit" id="submit-btn"><i class="fa-solid fa-chevron-right"></i></button>
+
+                        </form>
+
+
+                        <p class="sub-description" id="maggioriInfo"><i class="fa-solid fa-circle-info"></i> <span style="text-decoration: underline; text-decoration-color: var(--highlighted-color)">Maggiori informazioni</span></p>
+                        <ul class="keywords-info" id="keywordsInfo" style="display: none;">
+                            <li>Aggiungi le parole chiave alla lista per essere notificat<%= gender=='M'
+                                    ?'o':(gender=='F' ?'a':'ǝ') %> quando è presente un evento che la riguarda nel
+                                    calendario giornaliero. Ti consigliamo di inserire la tua classe e il tuo cognome.</li>
+                            <li>Per rimuovere una parola chiave, reinseriscila.</li>
+                            <li>Le keywords non sono case sensitive: &egrave; indifferente scriverle in maiuscolo o in
+                                minuscolo.</li>
+                            <li>Per pi&ugrave; informazioni, visita il <a href="./faq"
+                                    style="text-decoration:underline">FAQ</a>.</li>
+                        </ul>
+
+                    </div>
+                </div>
+                    <!------------------>
+
+                    <!-- Telegram -->
+                    <div class="bigSection" id="Telegram">
+                        <h2 class="bigSectionTitle selected-highlight"><i class="fa-brands fa-telegram"></i> Telegram</h2>
+                        <% if (tgun.charAt(0)==='X' ) { %>
+                            <p style="margin-bottom: 5px">Metodo di notifica ausiliario alla posta elettronica
+                                (facoltativo).
+                            <p style="margin-bottom: 20px">Ricevi la notifica tramite messaggio su Telegram.</p>
+                            <p>Per essere notificat<%= gender=='M' ?'o':(gender=='F' ?'a':'ǝ') %> su Telegram, manda
+                            </p>
+                            <p onclick="copy()" class="telegramCodeContainer"><i class="fa-solid fa-copy"></i> <span
+                                    id="telegramCode"><code><%= tgun %></code></span> <span id="copied">Copiato!</span>
+                            </p>
+                            a <b><a href="https://t.me/FermiNotifierBot" target="_blank" class="TelegramTag">@FermiNotifierBot</a></b> su
+                            Telegram.</p>
+                            <% } else { %>
+                                <p>Il tuo account telegram risulta correttamente collegato! (ID:
+                                    <code><%= tgun %></code>)</p>
+                            <% } %>
+
+                    </div>
+                    <!------------------>
+
+                    <!-- ON/OFF SETTINGS -->
+                    <div class="bigSection">
+                        <h2 class="bigSectionTitle"><i class="fa-solid fa-gear"></i> Impostazioni</h2>
+                        <div class="invioNotificheContainer">
+                            <p class="sub-description" style="padding-bottom: 10px"><i class="fa-solid fa-message"></i> <span>Invio notifiche</span></p>
+                            <div class="checkNot-container sendEmail">
+                                Email
+                                <label class="switch">
+                                    <input type="checkbox" checked class="checkbox" id="sendEmail" onclick="submitPreferences()">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <% if (tgun.charAt(0) != 'X' ) { %>
+                                <div class="checkNot-container sendEmail">
+                                    Telegram
+                                    <label class="switch">
+                                        <input type="checkbox" checked class="checkbox" id="sendTelegram" onclick="submitPreferences()">
+                                        <span class="slider round"></span>
+                                    </label>                             
+                                </div>
+                            <% } %>
+                        </div>
+
+                        <script>
+                            const submitPreferences = () => {
+                                let tg = "<%= tgun.charAt(0) %>" != 'X';
+                                let preferences;
+                                if(tg){
+                                    preferences = {
+                                        telegram: document.getElementById("sendTelegram").checked,
+                                        email: document.getElementById("sendEmail").checked
+                                    };
+                                } else {
+                                    preferences = {
+                                        email: document.getElementById("sendEmail").checked
+                                    };
+                                }
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/notification-preferences',
+                                    data: JSON.stringify(preferences),
+                                    success: function(data) { alert('data: ' + data); },
+                                    error: function(error) {
+                                        console.warn(error);
+                                    },
+                                    contentType: "application/json",
+                                    dataType: 'json'
+                                });
+                            }
+                        </script>
+                    </div>
+
+                    <script>
+                        let preferencesId = <%= n_pref %>;
+                        let tg = "<%= tgun.charAt(0) %>" != 'X';
+                        if(tg){
+                            switch (preferencesId) {
+                                case 3:
+                                    document.getElementById("sendTelegram").checked = true;
+                                    document.getElementById("sendEmail").checked = true;
+                                    break;
+                                case 2:
+                                    document.getElementById("sendTelegram").checked = false;
+                                    document.getElementById("sendEmail").checked = true;
+                                    break;
+                                case 1:
+                                    document.getElementById("sendTelegram").checked = true;
+                                    document.getElementById("sendEmail").checked = false;
+                                    break;
+                                case 0:
+                                    document.getElementById("sendTelegram").checked = false;
+                                    document.getElementById("sendEmail").checked = false;
+                                    break;
+                                default:
+                                    console.log("Merda.");
+                            }
+                        } else {
+                            switch (preferencesId) {
+                                case 3:
+                                    document.getElementById("sendEmail").checked = true;
+                                    break;
+                                case 2:
+                                    document.getElementById("sendEmail").checked = true;
+                                    break;
+                                case 1:
+                                    document.getElementById("sendEmail").checked = false;
+                                    break;
+                                case 0:
+                                    document.getElementById("sendEmail").checked = false;
+                                    break;
+                                default:
+                                    console.log("Merda.");
+                            }
+                        }
+                    </script>
+                    <!------------------>
+
+                    <!-- Notifiche -->
+                    <div class="bigSection">
+                    <h2 class="bigSectionTitle selected-highlight"><i class="fa-solid fa-bell"></i> Notifiche</h2>
+                    <span>&gt Hai ricevuto
+                        <%= n_not %> notifiche
+                    </span>
+                </div>
+                    <!------------------>
+                </div>
             </div>
-                
-        <!------------------>
 
-        <!-- Telegram -->        
-        <div class="bigSection" id="Telegram">
-            <h2 class="bigSectionTitle"><i class="fa-brands fa-telegram"></i> Telegram</h2>
-            <% if (tgun.charAt(0) === 'X') { %> 
-                <p style="margin-bottom: 5px">Metodo di notifica ausiliario alla posta elettronica (facoltativo).
-                <p style="margin-bottom: 20px">Ricevi la notifica tramite messaggio su Telegram.</p>
-                <p>Per essere notificat<%= gender=='M'?'o':(gender=='F'?'a':'ǝ') %> su Telegram, manda </p>
-                <p onclick="copy()" class="telegramCodeContainer"><i class="fa-solid fa-copy"></i> <span id="telegramCode"><code><%= tgun %></code></span> <span id="copied">Copiato!</span></p>
-                a <b><a href="https://t.me/FermiNotifierBot" target="_blank">@FermiNotifierBot</a></b> su Telegram.</p>
-            <% } else { %>
-                <p>Il tuo account telegram risulta correttamente collegato! (Id: <code><%= tgun %></code>)</p>
-            <% } %>
-            <div class="description">
-                
-
-            </div>
         </div>
-        <!------------------>
-
-        <!-- Notifiche -->
-        <h2 class="bigSectionTitle"><i class="fa-solid fa-bell"></i> Notifiche</h2>
-        <a href="#">&gt <span style="color: white;">hai ricevuto </span><%= n_not %><span style="color: white;"> notifiche</span></a>
-        <!------------------>
     </div>
-  </div></div>
-
     <div class="footer">
-        <div>
-            <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
-            <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+        <div class="footer-inner">
+            <div>
+                <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
+                <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+            </div>
+            <p>Questo sito utilizza cookie tecnici</p>
         </div>
-        <p>Questo sito utilizza cookie tecnici</p>
     </div>
 
-<script>
-    // copy text
-    function copy(){
-        var r = document.createRange();
-        r.selectNode(document.getElementById("telegramCode"));
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(r);
-        document.execCommand('copy');
-        window.getSelection().removeAllRanges();
-        $('#copied').fadeIn(0);
-        copiatoText();
-        // fadeOut after 5000ms
-        setTimeout(() => {
-            $('#copied').fadeOut(100);
-        }, 5000);
-    }
-</script>
-<script>
-    var today = new Date();
-    var hour = today.getHours();
-    if(hour < 12){
-        document.getElementById("greeting").innerHTML = "Buongiorno";
-    }else if(hour < 18){
-        document.getElementById("greeting").innerHTML = "Buon pomeriggio";
-    }else{
-        document.getElementById("greeting").innerHTML = "Buona sera";
-    }
-</script>
+    <script>
+        // copy text
+        function copy() {
+            var r = document.createRange();
+            r.selectNode(document.getElementById("telegramCode"));
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(r);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            $('#copied').fadeIn(0);
+            copiatoText();
+            setTimeout(() => {
+                $('#copied').fadeOut(100);
+            }, 5000);
+        }
+    </script>
 
-<script>
+    <script>
+        var today = new Date();
+        var hour = today.getHours();
+        if (hour < 12) {
+            document.getElementById("greeting").innerHTML = "Buongiorno";
+        } else if (hour < 18) {
+            document.getElementById("greeting").innerHTML = "Buon pomeriggio";
+        } else {
+            document.getElementById("greeting").innerHTML = "Buona sera";
+        }
+    </script>
 
-		function copiatoText(){
-			// array with texts to type in typewriter
-			var dataText = ["Copiato!"];
+    <script src="/JS/submit-loading.js"></script>
 
-			// type one text in the typwriter
-			// keeps calling itself until the text is finished
-			function typeWriter(text, i, fnCallback) {
-				// chekc if text isn't finished yet
-				if (i < (text.length)) {
-					// add next character to h1
-					document.querySelector("#copied").innerHTML = text.substring(0, i + 1) + '<span class="caret" aria-hidden="true"></span>';
+    <script>
 
-					// wait for a while and call this function again for next character
-					setTimeout(function () {
-						typeWriter(text, i + 1, fnCallback)
-					}, 100);
-				}
-				// text finished, call callback if there is a callback function
-				else if (typeof fnCallback == 'function') {
-					// call callback after timeout
-					setTimeout(fnCallback, 700);
-				}
-			}
-			// start a typewriter animation for a text in the dataText array
-			function StartTextAnimation(i) {
-				if (typeof dataText[i] == 'undefined') {
-					setTimeout(function () {
-						StartTextAnimation(0);
-					}, 20000);
-				}
-				// check if dataText[i] exists
-				if (i < dataText[i].length) {
-					// text exists! start typewriter animation
-					typeWriter(dataText[i], 0, function () {
-					});
-				}
-			}
-			// start the text animation
-			StartTextAnimation(0);
-		}
-</script>
+        function copiatoText() {
+            // array with texts to type in typewriter
+            var dataText = ["Copiato!"];
 
-<script>
-    // show/hide keywords info
-    $('#maggioriInfo').click(function(){
-        $('#keywordsInfo').slideToggle(500);
-    });
-</script>
+            // type one text in the typwriter
+            // keeps calling itself until the text is finished
+            function typeWriter(text, i, fnCallback) {
+                // chekc if text isn't finished yet
+                if (i < (text.length)) {
+                    // add next character to h1
+                    document.querySelector("#copied").innerHTML = text.substring(0, i + 1) + '<span class="caret" aria-hidden="true"></span>';
+
+                    // wait for a while and call this function again for next character
+                    setTimeout(function () {
+                        typeWriter(text, i + 1, fnCallback)
+                    }, 100);
+                }
+                // text finished, call callback if there is a callback function
+                else if (typeof fnCallback == 'function') {
+                    // call callback after timeout
+                    setTimeout(fnCallback, 700);
+                }
+            }
+            // start a typewriter animation for a text in the dataText array
+            function StartTextAnimation(i) {
+                if (typeof dataText[i] == 'undefined') {
+                    setTimeout(function () {
+                        StartTextAnimation(0);
+                    }, 20000);
+                }
+                // check if dataText[i] exists
+                if (i < dataText[i].length) {
+                    // text exists! start typewriter animation
+                    typeWriter(dataText[i], 0, function () {
+                    });
+                }
+            }
+            // start the text animation
+            StartTextAnimation(0);
+        }
+    </script>
+
+    <script>
+        // show/hide keywords info
+        $('#maggioriInfo').click(function () {
+            $('#keywordsInfo').slideToggle(500);
+        });
+    </script>
 
 </body>
+
+<!-- preload img -->
+<div id="preloadedImages" style="display: none;">
+	<img src="/IMG/loading.png">
+</div>
+
 </html>

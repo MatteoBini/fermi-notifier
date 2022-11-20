@@ -1,14 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/x-icon" href="../IMG/favicon-black.ico">
-	<link rel="stylesheet" href="../CSS/alertbanner.css" type="text/css">
-	<link rel="stylesheet" href="../CSS/credits.css" type="text/css">
-	<link rel="stylesheet" href="../CSS/general.css" type="text/css">
+	<meta name="description" content="Crediti · Fermi Notify.">
+	<link rel="icon" type="image/x-icon" href="/IMG/favicon-black.ico">
+	<link rel="stylesheet" href="/CSS/alertbanner.css" type="text/css">
+	<link rel="stylesheet" href="/CSS/credits.css" type="text/css">
+	<link rel="stylesheet" href="/CSS/general.css" type="text/css">
+	<script src="/JS/hamburger.js" defer></script>
+	<!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
 	<title>Crediti · Fermi Notify</title>
 </head>
 <body>
@@ -16,26 +19,36 @@
     <nav class="navbar">
         <div class="navbar-inner">
             <a class="logo" href="/">
-                <img src="../IMG/logo-long-white-trasp.png">
+                <img src="/IMG/nav-logo.png">
             </a>
-            <a href="#" class="hamburger">
+            <a class="hamburger">
                 <span class="line"></span>
                 <span class="line"></span>
                 <span class="line"></span>
             </a>
             <div class="nav-links">
                 <ul>
-                    <li>
-                        <a href="../dashboard" class="spanHighlight"><span>&gt;</span> Area Personale</a><!-- se il login è già stato effettuato, visualizzare il nome dell'utente-->
-                    </li>
+                    <% if(isLogged){ %> 
+                        <li>
+                            <a href="./dashboard" class="spanHighlight"><span>&gt;</span> Dashboard</a>
+                        </li>
+                    <% }else{ %>
+                        <li>
+                            <a href="./register" class="spanHighlight"><span>&gt;</span> Registrati</a>
+                        </li>
+                        <li>
+                            <a href="./login" class="spanHighlight"><span>&gt;</span> Login</a>
+                        </li>
+                    <% } %>
                 </ul>
             </div>
         </div>
     </nav>
 
-	<!-- WIP -->
-	<div class="container">
-		<div class="title">Credits</div>
+	<div class="content minHeight-100vh">
+    <div class="content-inner">
+
+		<div class="credits-title">Credits</div>
 		<div class="credits-container">
 			<div class="grid-item">
 				<h2 class="name">Bini Matteo</h2>
@@ -52,6 +65,7 @@
 				<div class="devInfo">
 					<div class="devRuolo">
 						<p>🎨 Design</p>
+						<p>💻 Code</p>
 					</div>
                 	<a class="devMail" href="mailto:cliu@fermimn.edu.it">cliu@fermimn.edu.it</a>
 				</div>
@@ -95,14 +109,32 @@
 				</div>
 			</div>
 		</div>
-	</div>
 
+		<div class="coffee-container">
+			<a class="coffee-button" href="https://www.buymeacoffee.com/ferminotify">
+			<h1 class="coffee-arrow">&gt;</h1>
+			<div class="coffee-link">
+				<h1 class="coffee-icon"><i class="fa-solid fa-mug-hot"></i></h1>
+				<div class="coffee-text">
+					<h2 class="coffee-text-big">OFFRICI UN CAFF&Egrave;</h2>
+					<span class="coffee-text-small">e supporta il progetto</span>
+				</div>
+			</div>
+			<h1 class="coffee-arrow">&lt;</h1>
+			</a>
+		</div>
+
+	</div>
+	</div>
+	
 	<div class="footer">
-		<div>
-            <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
-            <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
-        </div>
-		<p>Questo sito utilizza cookie tecnici</p>
+		<div class="footer-inner">
+			<div>
+				<a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
+				<a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+			</div>
+			<p>Questo sito utilizza cookie tecnici</p>
+		</div>
 	</div>
 	
 </body>

@@ -4,69 +4,179 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="JS/hamburger.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="IMG/favicon-black.ico">
+    <meta name="description"
+        content="Fermi Notify è un servizio non ufficiale dell'IS 'E. Fermi' Mantova che invia le notifiche per avvisare dell'aggiunta di nuovi eventi sul calendario giornaliero.">
+    <script src="/JS/hamburger.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="/IMG/favicon-black.ico">
     <!-- CSS -->
-    <link rel="stylesheet" href="CSS/general.css">
-    <link rel="stylesheet" href="CSS/custom.css">
-    <link rel="stylesheet" href="CSS/normalize.css">
-    <link rel="stylesheet" href="CSS/responsive_grid.css">
-    <link rel="stylesheet" href="CSS/alertbanner.css">
+    <link rel="stylesheet" href="/CSS/custom.css">
+    <link rel="stylesheet" href="/CSS/general.css">
+    <link rel="stylesheet" href="/CSS/normalize.css">
+    <link rel="stylesheet" href="/CSS/responsive_grid.css">
+    <link rel="stylesheet" href="/CSS/alertbanner.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
     <title>Fermi Notify</title>
 </head>
 <body>
-
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="navbar-inner">
             <a class="logo" href="/">
-                <img src="IMG/logo-long-white-trasp.png">
+                <img src="/IMG/nav-logo.png">
             </a>
-            <a href="#" class="hamburger">
+            <a class="hamburger">
                 <span class="line"></span>
                 <span class="line"></span>
                 <span class="line"></span>
             </a>
             <div class="nav-links">
                 <ul>
-                    <li>
-                        <a href="./dashboard" class="spanHighlight"><span>&gt;</span> Area personale</a>
-                    </li>
+                    <% if(isLogged){ %> 
+                        <li>
+                            <a href="./dashboard" class="spanHighlight"><span>&gt;</span> Dashboard</a>
+                        </li>
+                    <% }else{ %>
+                        <li>
+                            <a href="./register" class="spanHighlight"><span>&gt;</span> Registrati</a>
+                        </li>
+                        <li>
+                            <a href="./login" class="spanHighlight"><span>&gt;</span> Login</a>
+                        </li>
+                    <% } %>
                 </ul>
             </div>
         </div>
     </nav>
+    <div class="minHeight-100vh">
 
-    <!-- DYNAMIC TEXT -->
-    <div class="container-title">
-        <div class="container-mid">
-            <div class="container-subtitle">
-                <p class="main-subtitle1">
-                    &gt; inserisci il tag  <br>
-                </p>
+        <div class="container-title">
+            <div class="container-mid">
+                <div class="container-subtitle">
+                    <p class="main-subtitle1 selected-highlight">
+                        &gt; inserisci il tag <br>
+                    </p>
+                </div>
+                <div class="container-subtitle">
+                    <p class="main-subtitle2 selected-highlight">
+                        &gt; ricevi la notifica <br>
+                    </p>
+                </div>
+                <div class="container-subtitle">
+                    <p class="main-subtitle3 selected-highlight">
+                        &gt; rimani aggiornato <br>
+                    </p>
+                </div>
+                <div class="container-subtitle selected-highlight">
+                    <p class="main-subtitle4">
+                        &gt <span class="highlighted-text">sempre</span>.
+                    </p>
+                </div>
+                <div class="container-subtitle">
+                    <p class="main-subtitle5 selected-highlight">
+                        &gt;&nbsp;<input type="text" class="creative-input" maxlength="20" autofocus> <!-- onblur="this.focus()" -->
+                    </p>
+                </div>
             </div>
-            <div class="container-subtitle">
-                <p class="main-subtitle2">
-                    &gt; ricevi la notifica  <br>
-                </p>
+        </div>
+
+        <div class="content indexPresentation">
+            <div class="content-inner">
+                <h1>Ti presentiamo <span class="highlighted-text">Fermi Notify</span></h1>
+                <p class="sub-description">Fermi Notify &egrave; un servizio <span class="highlighted-text">non
+                        ufficiale</span> per l'Istituto Superiore "Enrico Fermi" di Mantova che invia delle notifiche
+                    via email o via Telegram quando viene aggiunto un evento sul <a
+                        href="https://fermimn.edu.it/orari/calendar.php">calendario giornaliero</a>, come una
+                    sostituzione o un cambio aula.</p>
             </div>
-            <div class="container-subtitle">
-                <p class="main-subtitle3">
-                    &gt; rimani aggiornato  <br>
-                </p>
+
+            <div class="comeFunziona">
+                <div class="grid-center-col2 comeFunziona-gridRow">
+                    <div class="flex-col-center indexPresentation-img-container iPic-1">
+                        <div class="indexPresentation-img-inner iPii-1">
+                            <h1>Come funziona<span class="highlighted-text">?</span></h1>
+                        </div>
+                    </div>
+                    <div class="flex-col-center indexPresentation-img-container iPic-2">
+                        <div class="keywords-pres indexPresentation-img-inner iPii-2">
+                            <h3 class="indexPresentation-txt">Inserisci le keywords nell'<span
+                                    class="highlighted-text">Area Personale</span></h3>
+                            <div class="indexPresentation-img">
+                                <img src="IMG/indexPresentation-1.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-center-col2 comeFunziona-gridRow">
+                    <div class="flex-col-center indexPresentation-img-container iPic-3">
+                        <div class="cal-pres indexPresentation-img-inner iPii-3">
+                            <h3 class="indexPresentation-txt">Con l'aggiunta di un evento nel <span
+                                    class="highlighted-text">calendario giornaliero</span>...</h3>
+                            <div class="indexPresentation-img">
+                                <img src="IMG/indexPresentation-2.jpeg">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-col-center indexPresentation-img-container iPic-4">
+                        <div class="indexPresentation-img-inner iPii-4">
+                            <h3 class="indexPresentation-txt">...ti avvisiamo tramite email o Telegram con tutte le
+                                <span class="highlighted-text">informazioni</span>
+                            </h3>
+                            <div class="indexPresentation-img">
+                                <img src="IMG/indexPresentation-3.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="container-subtitle">
-                <p class="main-subtitle4">
-                    <span style="color: white;">&gt</span> sempre.  
-                </p>
+
+            <div class="content-inner">
+
+                <div class="visitaFAQ">
+                    Visita la <a href="./faq" style="text-decoration-color: var(--highlighted-color);"><span class="highlighted-text">FAQ</span></a> per maggiori informazioni.
+                </div>
+
+                <% if(isLogged){ %> 
+                    <div class="login-iscriviti-dashboard-container">
+                        <span class="logged-as">Loggato come <span class="highlighted-text"><%= user %></span></span>
+                        <div class="login-iscriviti-dashboard-btn">
+                            <a class="btn-nobg" href="./logout">Logout</a>
+                            <a class="btn-bg margin-l15px" href="./dashboard">Dashboard</a>
+                        </div>
+                    </div>
+                <% }else{ %>
+                    <div class="login-iscriviti-dashboard-container">
+                        <div class="login-iscriviti-dashboard-btn">
+                            <a class="btn-nobg" href="./login">Login</a>
+                            <a class="btn-bg margin-l15px" href="./register">Registrati</a>
+                        </div>
+                    </div>
+                <% } %>
+
+                <div class="coffee-container">
+                    <a class="coffee-button" href="https://www.buymeacoffee.com/ferminotify">
+                    <h1 class="coffee-arrow">&gt;</h1>
+                    <div class="coffee-link">
+                        <h1 class="coffee-icon"><i class="fa-solid fa-mug-hot"></i></h1>
+                        <div class="coffee-text">
+                            <h2 class="coffee-text-big">OFFRICI UN CAFF&Egrave;</h2>
+                            <span class="coffee-text-small">e supporta il progetto</span>
+                        </div>
+                    </div>
+                    <h1 class="coffee-arrow">&lt;</h1>
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <% if (typeof message !== 'undefined' ) { %>
-
+    <% if (typeof message !=='undefined' ) { %>
         <div id="alertbanner" class="successbanner">
-            <p id="alertmessage"><i class="fa-solid fa-check"></i> <%= message %></p>
+            <p id="alertmessage"><i class="fa-solid fa-check"></i>
+                <%= message %>
+            </p>
         </div>
         <script>
             document.getElementById("alertbanner").style.animation = "showAlert 0.5s ease-in-out forwards";
@@ -74,11 +184,83 @@
     <% } %>
 
     <div class="footer">
-        <div>
-            <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
-            <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+        <div class="footer-inner">
+            <div>
+                <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
+                <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+            </div>
+            <p>Questo sito utilizza cookie tecnici</p>
         </div>
-        <p>Questo sito utilizza cookie tecnici</p>
     </div>
+
+    <script>
+        $(function () {
+            $('[autofocus]').focus()
+        });
+
+        var input = document.querySelector(".creative-input");
+        input.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.querySelector(".creative-input").value = "";
+            }
+        });
+    </script>
+    
+    <script>
+        // check if element is in viewport
+        function isScrolledIntoView(elem) {
+            var $elem = $("." + elem);
+            var $window = $(window);
+
+            var docViewTop = $window.scrollTop();
+            var docViewBottom = docViewTop + $window.height();
+
+            var elemTop = $elem.offset().top;
+            var elemBottom = elemTop + $elem.height();
+
+            return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+        }
+
+        // if class is in viewport add animation
+        $(window).scroll(function () {
+            $('.indexPresentation-img-inner').each(function () {
+                if (isScrolledIntoView("iPii-1") === true) {
+                    if($(this).hasClass("iPii-1")) {
+                        $(this).css("animation", "fadeDown 1s ease-in-out forwards");
+                    } else if($(this).hasClass("iPii-2")) {
+                        $(this).css("animation", "fadeDown 1s ease-in-out 0.25s forwards");
+                    } else if($(this).hasClass("iPii-3")) {
+                        $(this).css("animation", "fadeDown 1s ease-in-out 0.5s forwards");
+                    } else if($(this).hasClass("iPii-4")) {
+                        $(this).css("animation", "fadeDown 1s ease-in-out 0.75s forwards");
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script>
+        var height = window.innerHeight;
+        var width = window.innerWidth;
+        if (height > 500) {
+            setTimeout(function () {
+                $(".container-title").css("height", "min(450px, 90vw)");
+                $(".container-title").css("min-height", "auto");
+            }, 5000);
+        }
+    </script>
+
+    <script>
+        var input = document.querySelector(".creative-input");
+        input.addEventListener("keyup", function (event) {
+            var inputText = input.value.toLowerCase();
+            if (inputText === "fermi notify" || inputText === "ferminotify")  {
+                input.style.color = "var(--highlighted-color)";
+            } else {
+                input.style.color = "var(--text-color)";
+            }
+        });
+    </script>
 </body>
 </html>

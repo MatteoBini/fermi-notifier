@@ -4,12 +4,13 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="../JS/hamburger.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="../IMG/favicon-black.ico">
+    <meta name="description" content="Frequently Asked Questions di Fermi Notify.">
+	<script src="/JS/hamburger.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="/IMG/favicon-black.ico">
     <!-- CSS -->
-    <link rel="stylesheet" href="../CSS/faq.css">
-    <link rel="stylesheet" href="../CSS/custom.css">
-    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="/CSS/faq.css">
+    <link rel="stylesheet" href="/CSS/custom.css">
+    <link rel="stylesheet" href="/CSS/general.css">
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
     <!-- jQuery 3.6.0 -->
@@ -21,22 +22,32 @@
     <nav class="navbar">
         <div class="navbar-inner">
             <a class="logo" href="/">
-                <img src="../IMG/logo-long-white-trasp.png">
+                <img src="/IMG/nav-logo.png">
             </a>
-            <a href="#" class="hamburger">
+            <a class="hamburger">
                 <span class="line"></span>
                 <span class="line"></span>
                 <span class="line"></span>
             </a>
             <div class="nav-links">
                 <ul>
-                    <li>
-                        <a href="../dashboard" class="spanHighlight"><span>&gt;</span> Area Personale</a>
-                    </li>
+                    <% if(isLogged){ %> 
+                        <li>
+                            <a href="./dashboard" class="spanHighlight"><span>&gt;</span> Dashboard</a>
+                        </li>
+                    <% }else{ %>
+                        <li>
+                            <a href="./register" class="spanHighlight"><span>&gt;</span> Registrati</a>
+                        </li>
+                        <li>
+                            <a href="./login" class="spanHighlight"><span>&gt;</span> Login</a>
+                        </li>
+                    <% } %>
                 </ul>
             </div>
         </div>
     </nav>
+    <div class="content minHeight-100vh"><div class="content-inner">
 
     <div class="faqcontainer">
         <h1 class="firstTitle">FAQ</h1>
@@ -80,7 +91,14 @@
             </div>
 
             <div class="question">
-                <h3 class="thirdTitle">3. A cosa servono i cookie?</h3>
+                <h3 class="thirdTitle">3. Fermi Notify e l'Istituto Superiore "Enrico Fermi" Mantova.</h3>
+                <p class="answer">
+                    Fermi Notify non &egrave; un servizio ufficiale dell'Istituto Superiore "Enrico Fermi" di Mantova. Il sistema non è riconosciuto dalla presidenza. Eventuali malfunzionamenti sono a carico dello staff e non sono valide giustificazioni in uffici di segreteria e presidenza
+                </p>
+            </div>
+
+            <div class="question">
+                <h3 class="thirdTitle">4. A cosa servono i cookie?</h3>
                 <p class="answer">
                     Il sito utilizza cookie tecnici per salvare il login per la sessione in corso. In questo modo non &egrave; necessario rieffettuare il login fino a quando non viene chiusa la sessione.
                 </p>
@@ -90,7 +108,7 @@
         <div id="registrazioneContainer" class="indexElemContainer">
             <div class="question">
                 <h3 class="thirdTitle">1. Come faccio a registrarmi?</h3>
-                <p class="answer">Per registrarti clicca <a href="https://www.ferminotify.me/register">qui</a>. Se non hai gi&agrave; fatto il login, &egrave; possibile raggiungere la pagina di registrazione anche dall'<a href="https://www.ferminotify.me/login">Area Personale</a> e poi su <i>Registrati</i>.</p>
+                <p class="answer">Per registrarti clicca <a href="https://www.ferminotify.me/register">qui</a>. L'email utilizzata nella registrazione sarà quella che riceverà le notifiche.</p>
             </div>
 
             <div class="question">
@@ -148,14 +166,18 @@
             master@ferminotify.me
         </a>
     </div>
+
+    </div></div>
 	
 
 	<div class="footer">
-        <div>
-            <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
-            <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+        <div class="footer-inner">
+            <div>
+                <a href="./faq" class="spanHighlight" style="padding-right: 1vw;"><span>&gt;</span> FAQ</a>
+                <a href="./credits" class="spanHighlight"><span>&gt;</span> Credits</a>
+            </div>
+            <p>Questo sito utilizza cookie tecnici</p>
         </div>
-        <p>Questo sito utilizza cookie tecnici</p>
     </div>
 
     <script>

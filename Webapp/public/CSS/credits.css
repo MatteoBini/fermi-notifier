@@ -1,21 +1,16 @@
-.title{
+.credits-title{
 	text-align: center;
 	padding: 20px 0;
 	width: 100%;
 	color: #fff;
-	font-weight: 900;
+	font-weight: 800;
 	font-size: 40px;
-}
-
-.container{
-	min-height: calc(100vh - 69px - 50px - 50px);
 }
 
 .credits-container{
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 50px 20px;
-	padding: 0 10%;
+	grid-gap: 25px;
 	color: #fff;
 }
 
@@ -50,19 +45,4 @@
 .devMail{
 	color: var(--highlighted-color);
 }
-
-.footer{
-	margin-top: 50px;
-}
-
-@media only screen and (max-width: 920px) {
-	.credits-container{
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-
-@media only screen and (max-width: 650px) {
-	.credits-container{
-		grid-template-columns: repeat(1, 1fr);
-	}
-}
+/* ---------------------- */

@@ -294,23 +294,23 @@ def get_last_minute_message(receiver: dict, events: list) -> str:
     body += f"event{'i' if len(events) > 1 else 'o'} dell'ultimo minuto:\n"
 
     for _ in events:
-        body += f"""*Titolo*: `{_["subject"]}` \n"""
-    
-        # date/time begin
+        body += f"""\n· `{_["subject"]}`"""
+        body += "\n· *Inizio* ⏰ "
         if _["startDate"] != None:
-            body += f"""*Inizio*: `{_["startDate"][8:]}-"""
-            body += f"""{_["startDate"][5:6]}-{_["startDate"][:3]}`\n"""
+            body += f"""`{_["startDate"][8:9]}-{_["startDate"][5:6]}-\
+                        {_["startDate"][:4]}`"""
         else:
-            body += f"""*Inizio*: `{_["startDateTime"][11:16]}` \n"""
-        
-        # date/time end
+            body += f"""`{_["startDateTime"][11:16]}`"""
+
+        body += "\n· *Fine* 🔚 "
+
         if _["endDate"] != None:
-            body += f"""*Fine*: `{_["endDate"][8:]}-"""
-            body += f"""{_["endDate"][5:6]}-{_["endDate"][:3]}` \n"""
+            body += f"""`{_["endDate"][8:9]}-{_["endDate"][5:6]}-\
+                        {_["endDate"][:4]}`\n"""
         else:
-            body += f"""*Fine*: `{_["endDateTime"][11:16]}` \n\n"""
+            body += f"""`{_["endDateTime"][11:16]}`\n"""
 
     # footer
-    body += f"""Ti auguriamo buon proseguimento di giornata.\n\n"""
+    body += f"""Ti auguriamo buon proseguimento di giornata.\n"""
     body += f"""_Fermi Notify Team_ \nmaster@ferminotify.me"""
     return body
